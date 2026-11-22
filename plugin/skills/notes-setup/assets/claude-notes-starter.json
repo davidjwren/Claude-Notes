@@ -1,0 +1,299 @@
+{
+ "backup_of": "Claude Notes",
+ "created": "2026-11-22T12:00:00.000Z",
+ "source": "starter notes",
+ "note_count": 10,
+ "notes": [
+  {
+   "id": "welcome",
+   "index": {
+    "title": "Welcome to Claude Notes",
+    "tags": [],
+    "keywords": [
+     "welcome",
+     "getting started"
+    ],
+    "links": [
+     "help-basics"
+    ],
+    "summary": "Claude Notes is a private notebook page inside Claude that works on every device and has Claude built in. Start with Quick note, tags as folders, search, the To-do row and the Help section.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 246,
+    "pinned": true
+   },
+   "body": {
+    "text": "Claude Notes is your notebook inside Claude: one private page that works on your phone, tablet and computer, with Claude built in.\n\n## Start here\n- **Write**: click into **Quick note** at the top of the sidebar, or press **New note**. Notes save as you type, in markdown.\n- **Organise**: give a note tags such as `Work/Projects`. Each tag becomes a folder under **Folders**; a note can sit in several.\n- **Find**: search looks at titles, tags, keywords and the text of every note. **Graph view** shows how your notes link.\n- **To-do**: the **To-do** row at the top of the sidebar holds your to-do lists. Use **New to-do list** on the start page, or ask Claude \"add to my to-do list: …\".\n\n## Claude, in your notes\n- Open a note and use **Chat** (speech bubble) to ask about it, **Auto-improve** (wand) for keywords and links, or the sparkle beside a paragraph to rewrite, shorten or expand it.\n- From any Claude chat, the `/notes` skill saves, finds and edits notes for you: \"save this as a note\", \"find my notes on…\".\n\n## Good to know\n- Your notes are stored in this page's database on Anthropic's servers, and sent to Claude when you use a Claude feature. Keep passwords, account numbers and confidential client or work material out.\n- Download a copy at any time: **Settings → Download all (JSON)**.\n\nThe **Help** section in the sidebar explains everything else, starting with [[Claude Notes basics]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "todo",
+   "index": {
+    "title": "To-do",
+    "tags": [
+     "To-do"
+    ],
+    "keywords": [
+     "to-do",
+     "tasks"
+    ],
+    "links": [],
+    "summary": "Your standard to-do list. Claude adds tasks here when you ask it to add to \"my to-do list\".",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 0,
+    "pinned": true
+   },
+   "body": {
+    "text": "",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-basics",
+   "index": {
+    "title": "Claude Notes basics",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "writing",
+     "tags",
+     "folders",
+     "search",
+     "links",
+     "graph",
+     "settings"
+    ],
+    "links": [
+     "help-devices",
+     "help-markdown",
+     "help-skill",
+     "help-editing"
+    ],
+    "summary": "Claude Notes covers writing with autosave, tags as nested folders, menus for moving and deleting, search, links and the graph view. It also lists the Claude features on the page and the /notes skill.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 971,
+    "pinned": false
+   },
+   "body": {
+    "text": "Everything you can do on the notes page, in one place. For how the page looks on each device, see [[Claude Notes on each device]].\n\n## Writing\n- **New note**: the pencil button at the top of the sidebar, the New note button on the start page, or the one in a folder's notes list (that one tags the note with the folder).\n- **New to-do list**: the button on the start page opens a new note tagged To-do, with a first empty task. Give it a title and add tasks.\n- **Quick note**: click into the Quick note box at the top of the sidebar and it opens out. The first line becomes the title; Save (or Ctrl or Cmd + Enter) puts it in Untagged, and Cancel or Esc clears it.\n- **Edit and Done**: press Edit (or double-click the text) to write in markdown. Notes save about 1.5 seconds after you stop typing, and the note bar shows \"Saved\" with the time. See [[Markdown cheatsheet]].\n- **View mode**: in the editor, View mode shows headings, bold and links formatted while you type. The text underneath is still plain markdown.\n- **Another device**: if the note changes on another device while you are editing, a warning offers \"Load theirs\" or \"Keep mine\".\n\n## Tags, folders and keywords\n- **Tags** are comma-separated; a slash makes a sub-folder, up to 4 levels: `Work/Projects/Alpha, Reading`. A note with several tags appears in several folders.\n- **Folders** in the sidebar come from the tags. A folder lists the notes tagged with that folder itself; sub-folders appear as rows at the top of the list.\n- **Keywords** are extra search words, kept in lower case.\n- **To-do**: the first row of the sidebar lists every note tagged `To-do`, such as your to-do lists. These notes do not appear under Folders.\n- **Pinned**: pin a note, or a folder, from its menu. Pinned notes show on the start page; pinned folders sit below Untagged.\n- **Help**: the Help section, below Most recent, lists every note tagged `Help` (including sub-folders such as `Help/Setup`). These notes do not appear under Folders.\n- **Sections**: Folders, GitHub (once you have synced repositories), Most recent and Help open and close with the + and − on the right of each heading.\n\n## Menus, moving and deleting\n- **Menus**: right-click a note or folder, or press and hold it on a touch screen.\n- **Notes**: Pin, Move to… (pick or type a folder) and Delete.\n- **Folders**: Pin folder, Rename… and Move to…. Renaming or moving a folder retags every note under it, after a confirmation, with Undo for 10 seconds.\n- **Drag and drop** (mouse or trackpad): drop a note on a folder to move it there; hold Option or Alt to add the tag and keep the others. Drop a folder on another folder to nest it.\n- **Delete** moves a note to Recently deleted (sidebar footer) for 30 days, where you can restore it.\n\n## Finding notes\n- **Search** (or press `/`): every word must match. It looks at titles, tags, keywords and summaries straight away, then at note text.\n- **Sort and filter**: the notes list sorts by date modified, date created or title, and filters by tagged, untagged or top-level folder.\n- **Most recent**: the 10 latest edited notes, in the sidebar.\n- **Back and forward**: ‹ and › in the note bar, or Alt + ← and Alt + →, step through the notes you have opened.\n- **Direct link**: each note has its own address ending `#n-<id>`.\n\n## Links between notes\n- Type `[[Note title]]`, or use **Link a note** in the editor. The reader shows \"Linked from\" under any note that others link to.\n- **Graph view** shows notes as dots and links as lines, coloured by top-level folder. With **Folders** on, each folder is a ring joined to its notes, so unlinked notes sit with their folder. Click a note to open it, or a folder to open its list.\n\n## Claude on the page\n- **Summary box**: a two-line summary at the top of most notes, written by Claude and refreshed nightly after edits.\n- **Chat** (speech bubble): ask about the open note; insert the answer, replace the note text, or save it as a new note.\n- **Auto-improve** (wand): suggests keywords, links to other notes and sources the note names. You tick what to apply; Undo reverses it.\n- **Write with Claude** and **Summarise a document**: in the editor.\n- **Paragraph tools**: in the reader, the sparkle button beside a paragraph offers Rewrite, Shorten and Expand.\n\n## Other features\n- **Statistics**: a 12-month activity heatmap, notes this day, week and month, and an estimate of Claude use on the page.\n- **Settings**: Light, Dark or System; day and night colour schemes; font; text size; Import. Settings apply on every device.\n- **Passwords links**: `[[passwords:Item name]]` shows a key chip that copies the item name to search in Apple Passwords. No secret is stored.\n- **Link cards**: a link on a line of its own (a web address, or `[text](address)`) shows as a card with the site's icon, a title and the site name, automatically. A link inside a sentence stays an ordinary link. The page can't read other websites, so the title comes from the link text or the address; ask Claude (`/notes cards <note>`) for real titles and descriptions.\n- **Backups**: the sidebar footer shows the last nightly backup (if you set up the optional backup task); Settings → Download all (JSON) saves a copy now.\n- **From any Claude chat**: the `/notes` skill saves, finds and edits notes, and keeps the To-do lists. See [[Claude Notes skill and scheduled tasks]].\n- **Changing the page**: Claude can change this page to suit you. See [[Changing Claude Notes with Claude]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-devices",
+   "index": {
+    "title": "Claude Notes on each device",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "layout",
+     "mobile",
+     "ipad",
+     "desktop"
+    ],
+    "links": [
+     "help-basics"
+    ],
+    "summary": "Claude Notes picks one of three layouts by screen width: one pane on phones, one sidebar column on tablets and folding phones, and three columns on desktops. Shortcuts, menus and the chat panel differ by width.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 454,
+    "pinned": false
+   },
+   "body": {
+    "text": "The page picks its layout from the width the screen reports to it in CSS pixels (about a third of a phone's physical pixels), not from the device type.\n\n| Width | Typical screens | Layout |\n|---|---|---|\n| Under 600px | Phones in portrait, Galaxy Fold cover screen | One pane at a time |\n| 600 to 1100px | Fold inner screen, iPad in portrait, phones in landscape | One sidebar column beside the note |\n| Over 1100px | Desktop and laptop browsers, most iPads in landscape | Three columns |\n\n## Phone (under 600px)\n- One pane at a time: folders, then a folder's notes, then the note. Back buttons at the top move between them.\n- Larger buttons for touch. The folder sidebar scrolls as one, with the footer (backup, Recently deleted, Settings) at the end.\n- Menus open with a long press. Drag and drop is not available.\n- The hide-sidebars button and the breadcrumb are not shown.\n\n## Tablet and folding phone opened out (600 to 1100px)\n- One sidebar column beside the note. It shows either the folders or the open folder's notes list, with a back button at the top.\n- The hide-sidebars button gives the note the full width.\n- On touch screens, rows and buttons are a little taller.\n\n## Desktop and web (over 1100px)\n- Three columns: folders, the notes list (it slides out when you choose a folder or search), and the note.\n- The notes list has its own hide button; a matching show button appears in the note bar.\n- The diagonal-arrows button hides both sidebars, widens the text and shows the note's folder path as a breadcrumb.\n- Drag and drop, right-click menus and keyboard shortcuts: `/` to search, Alt + ← and Alt + → for back and forward, Ctrl or Cmd + Enter to save a quick note, Esc to close dialogs.\n\n## Every width\n- The Chat panel sits beside the page on screens 1000px and wider, and covers it on narrower ones.\n- The notes list closes when you open a note from anywhere other than the list (Most recent, the start page, a link, GitHub), and when Statistics or the graph opens.\n- If the screen is under 560px tall, the folder sidebar scrolls as one.\n\n## Where the page runs\n- Open it in Claude (the app on iPhone, Android or iPad, or claude.ai in a browser), signed in as yourself. Elsewhere it shows \"Notes are unavailable in this view\".\n- Settings, pins and pinned folders follow you to every device. Sort, filter and which sections are open are kept per device.\n- See [[Claude Notes basics]] for what each feature does.\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-importing",
+   "index": {
+    "title": "Importing notes into Claude Notes",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "import",
+     "restore",
+     "json"
+    ],
+    "links": [
+     "help-github"
+    ],
+    "summary": "Notes reach Claude Notes through Settings → Import of a JSON file, Claude's app connections, the /notes skill and Summarise a document. Existing note ids are skipped, so imports never duplicate.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 365,
+    "pinned": false
+   },
+   "body": {
+    "text": "Notes can come in from files, from other apps through Claude, and from any Claude chat. Notes that are already here are never duplicated.\n\n## Settings → Import (on the page)\n- Choose a Claude Notes JSON file: a nightly backup, a Download all file, or a file Claude has prepared from another app.\n- Notes whose id already exists are skipped, so importing the same file twice is safe. The page writes two records per note, retries if the database is busy, and shows progress. Keep the page open until it finishes.\n- This is also how you **restore from a backup**: import the backup file, after deleting any notes you want replaced.\n\nThe file is JSON in this shape:\n\n```\n{\"backup_of\": \"Claude Notes\", \"notes\": [\n  {\"id\": \"v-1a2b3c4d5e6f\",\n   \"index\": {\"title\": \"…\", \"tags\": [\"Work/Projects\"], \"keywords\": [], \"links\": [], \"summary\": \"\", \"source\": \"import\", \"created\": \"2026-11-22T10:00:00Z\", \"updated\": \"2026-11-22T10:00:00Z\", \"summarised\": null, \"words\": 120, \"pinned\": false},\n   \"body\": {\"text\": \"markdown…\"}}\n]}\n```\n\n## Other apps\n- Ask Claude to bring notes across through a connection to the app (for example Apple Notes on a Mac, or a notes app with a Claude connector). Images are not imported; they are marked where they were.\n- Claude leaves out anything holding secrets (account numbers, passwords). Long poems, lyrics and book quotes are not copied in full; a placeholder marks where to paste them.\n\n## From a Claude chat\n- `/notes save this` (or \"save this as a note in Work/Projects\") turns research, a chat or code work into a note, with a summary and keywords.\n- With the capture setting on, Claude offers (or saves automatically) at the end of research, a code session or a long chat. Change it with `/notes capture research auto`, `… offer` or `… off`.\n\n## From a document\n- In the editor, **Summarise a document** reads a text, markdown, HTML, CSV, Word or PDF file in the browser and inserts Claude's summary into the note.\n\nTo bring in notes from another app (Obsidian, Apple Notes, a folder of markdown files), ask Claude to turn them into a file in the format above, then use Settings → Import. For GitHub repositories, see [[GitHub sync in Claude Notes]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-github",
+   "index": {
+    "title": "GitHub sync in Claude Notes",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "github",
+     "sync",
+     "repositories"
+    ],
+    "links": [
+     "help-basics",
+     "help-importing"
+    ],
+    "summary": "Claude can keep one note per GitHub repository, rewritten on request or nightly, which the page applies when opened. Each note keeps its My notes section and pin; unticked repositories go to Recently deleted.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 449,
+    "pinned": false
+   },
+   "body": {
+    "text": "Claude can keep one note per GitHub repository, in a GitHub section of the sidebar, rewritten from GitHub on request or each night. Each note keeps a **My notes** section at the end for your own text.\n\n## Getting started\n- Ask Claude to \"sync GitHub\" (or `/notes sync github`). The first time, Claude asks which GitHub account to sync. Claude needs read access to your repositories through its GitHub connection.\n- Open this page afterwards: it applies the sync and the GitHub section appears in the sidebar.\n\n## What a repository note holds\n- Repository link, private or public, main language, last push and default branch.\n- **Overview (generated)**: one paragraph written by Claude from the README and file tree. It is rewritten only after a new push.\n- Branches, open pull requests and the five most recently closed.\n- The README (headings shifted down a level), and the file structure, with deep folders folded to an item count.\n- **My notes**: anything under this heading is kept at every sync. Pins are kept too.\n\n## When it syncs\n- Nightly, if you set up the optional scheduled task (see the project's README on GitHub).\n- For a sync now, ask Claude to \"sync GitHub\" (or `/notes sync github`).\n- Right-click the GitHub heading (press and hold on a touch screen) for **Sync now** and the last sync time. A page cannot start Claude, so Sync now records a request for the next run.\n\n## How it reaches the page\n1. Claude reads each repository through its GitHub access (read only), builds one file of repository notes, and attaches it to the notes page.\n2. The next time you open the page, it applies the file: it writes the repository notes, keeps My notes and pins, and moves notes for repositories no longer synced to Recently deleted.\n3. A message at the bottom of the page reports what was updated.\n\n## Choosing repositories\n- Right-click GitHub → **Choose repositories…**, then untick any you do not want. Their notes go to Recently deleted at the next sync.\n- New repositories on your account are added when Claude can list them. If it can't in a run, it syncs the ones it already knows about and says so.\n\n## Limits\n- Public repositories are read without signing in, so their pull requests can't be shown.\n- Repository notes have no tags: they appear under GitHub, not in Untagged, Most recent or the folders. In the graph they hang from a GitHub node.\n- Only My notes is yours to edit; everything above it is replaced at the next sync.\n\nSee also [[Claude Notes basics]] and [[Importing notes into Claude Notes]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-markdown",
+   "index": {
+    "title": "Markdown cheatsheet",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "markdown",
+     "formatting",
+     "links",
+     "tables",
+     "tasks"
+    ],
+    "links": [
+     "help-basics"
+    ],
+    "summary": "Markdown the notes page shows: bold, italic, headings, lists, tasks, quotes, code, tables, links and link cards. It also covers note links and Passwords chips, and what is not shown, such as images.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 314,
+    "pinned": false
+   },
+   "body": {
+    "text": "What the notes page shows for each piece of markdown. Type it in the editor; the reader formats it. See [[Claude Notes basics]] for the editor itself.\n\n## Text\n- `**bold**` shows as **bold**\n- `*italic*` or `_italic_` shows as *italic*\n- `~~struck~~` shows as ~~struck~~\n- Single backticks around text show it as `code`\n\nA single line break inside a paragraph is kept as a line break. A blank line starts a new paragraph.\n\n## Headings\n```\n# Heading 1\n## Heading 2\n### Heading 3\n```\nA first line that repeats the note's title is hidden in the reader, so imported notes don't show their title twice.\n\n## Lists and tasks\n```\n- bullet (also * or +)\n1. numbered (also 1))\n- [ ] open task\n- [x] done task\n```\nNested lists show as one flat list. Task boxes are for display; tick a task by editing the text or asking Claude (\"done <task>\").\n\n## Quotes, rules and code\n```\n> quoted text\n---\n```\nThree backticks on their own line open and close a code block.\n\n## Tables\n```\n| Country | Rate |\n|---|---|\n| Spain | 19% |\n```\n\n## Links\n- `[text](https://…)`: a web link inside a sentence\n- A web address inside a sentence links automatically\n- A link on a line of its own, either a bare address or `[text](https://…)`, shows as a card with the site's icon, the title and the site name\n- `[[Note title]]`: links to another note, matched by title in any case\n- `[[Note title|label]]`: shows the label instead of the title\n- `[[Note title#Heading]]`: shows \"Note title › Heading\"\n- `[[card:https://…|Title|Description]]`: a link card with the site's icon\n- `[[passwords:Item name]]`: a chip that copies the item name for Apple Passwords\n\nA `[[link]]` to a title that doesn't exist shows struck through. Images and HTML are not shown.\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-limits",
+   "index": {
+    "title": "Notes limit and a second database",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "capacity",
+     "database",
+     "limit",
+     "split"
+    ],
+    "links": [
+     "help-basics",
+     "help-importing"
+    ],
+    "summary": "Claude Notes holds about 12,500 notes, and the page reads them in batches of 1,000 so all of them show. A top-level folder can move to a second database: record the request from its menu, then ask Claude.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 398,
+    "pinned": false
+   },
+   "body": {
+    "text": "Claude Notes keeps every note in the notes page's own database, which has fixed limits. This note says what they are, and how to move a folder to a second database if one ever gets close.\n\n## The limits\n- **About 12,500 notes**: the database holds 25,000 records and each note uses two (its index and its text). A few more records hold settings, activity and Recently deleted.\n- **100 MB in total**, and about 250 KB of text per note.\n- **1,000 records per request**: the database hands over at most 1,000 records at a time. The page keeps the newest 1,000 notes live and reads older notes (and note text, for search) in further batches of 1,000, so every note shows however many there are. With several thousand notes, opening the page and the first search take a little longer.\n\n## Asking for a second database\n1. Right-click a top-level folder (press and hold on a touch screen) and choose **Move to a second database…**. Only top-level folders have this option.\n2. The dialog shows the folder's note count and how full this database is. **Record request** saves your choice; nothing moves yet.\n3. Ask Claude to \"move <folder> to a second database\". A page can't create another database itself, so Claude does the move.\n\n## What Claude does\n1. Reads the request (`meta/split`: folder, note count, date).\n2. Publishes a second notes page from this page's design, for example \"Claude Notes 2\", with the same settings and access rules.\n3. Copies every note in the folder and its sub-folders, both records with the same ids, into the new database, then checks the counts and opens a few notes.\n4. Only after the check, and after a nightly backup has run, moves the originals here to Recently deleted, and records the result and the new page's link in `meta/split`.\n5. Updates any scheduled tasks (backup, summaries, GitHub, reminders) and points the `/notes` skill at both pages.\n\n## What changes after a split\n- The two pages are separate: search, the graph, Statistics and `[[links]]` work within each page only. A link to a note on the other page shows struck through.\n- Your settings, colour schemes and pinned folders are kept per page.\n- Moving a folder back later works the same way in reverse.\n\nSee also [[Claude Notes basics]] and [[Importing notes into Claude Notes]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-skill",
+   "index": {
+    "title": "Claude Notes skill and scheduled tasks",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "skill",
+     "/notes",
+     "scheduled tasks",
+     "capture",
+     "reminders"
+    ],
+    "links": [
+     "help-github",
+     "help-editing"
+    ],
+    "summary": "The /notes skill lets Claude save, find and edit notes, keep to-do lists and sync GitHub from any chat. Optional scheduled tasks write summaries, back up notes, sync GitHub and send reminder digests.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 497,
+    "pinned": false
+   },
+   "body": {
+    "text": "Claude Notes has three parts that work together: this page, the `/notes` skill that lets Claude work with your notes from any chat, and optional scheduled tasks that look after the notes overnight.\n\n## The /notes skill\nType `/notes` followed by a request in any Claude chat, or just ask in plain words. The skill finds this page by its title, Claude Notes.\n\n| Ask | What happens |\n|---|---|\n| \"save this as a note in Work/Projects\" | Claude writes a note from the chat, with a title, tags, a summary and keywords |\n| \"find my notes on onboarding\" | Searches titles, tags, keywords and summaries, then the text if needed |\n| \"open …\", \"add to …: …\", \"edit …\" | Shows, appends to or changes a note; the rest stays as it was |\n| \"pin …\", \"delete …\" | Pins, or moves to Recently deleted after asking once |\n| \"add to my to-do list: …\" or \"remind: …\" | Adds a task to the To-do list |\n| \"add to my Work to-do list: …\" | Adds to a named list, creating \"Work to-do\" if needed |\n| \"done …\", \"show my to-do list\" | Ticks a task off, or lists open tasks |\n| \"send … to my work email\" | Emails the task (it asks for the address once) and ticks it as sent |\n| \"capture research auto\" | Changes when Claude saves notes for you (below) |\n| \"cards …\" | Fills in real titles and descriptions for the link cards in a note |\n| \"sync GitHub\" | Refreshes the GitHub repository notes ([[GitHub sync in Claude Notes]]) |\n| \"change the notes page so that …\" | Edits this page ([[Changing Claude Notes with Claude]]) |\n\n**Capture**: Claude can offer to save, or save automatically, at the end of research, a code session or a long chat. Each kind is off, offer or auto; all start at offer. A skill only loads when a request matches it, so for capture to happen reliably add a line to your Claude preferences such as: \"At the end of research, a code session or a long chat, use the notes skill and follow my notes capture setting.\"\n\n## Scheduled tasks (optional)\nScheduled tasks run in Claude on a timetable while you are away. Each is set up once by asking Claude, with the prompts in the project's README on GitHub:\n\n- **Note summaries**, nightly: writes the two-line summary at the top of each note edited since its last summary.\n- **Backup**, nightly: saves every note as one dated JSON file to your cloud storage. The sidebar footer shows the last backup.\n- **GitHub sync**, nightly: refreshes the repository notes.\n- **Reminder digest**, morning and evening: sends a phone notification listing open to-do tasks.\n\nWithout the tasks, everything still works: summaries can be asked for, Settings → Download all (JSON) saves a copy, and \"sync GitHub\" runs on request.\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  },
+  {
+   "id": "help-editing",
+   "index": {
+    "title": "Changing Claude Notes with Claude",
+    "tags": [
+     "Help"
+    ],
+    "keywords": [
+     "customise",
+     "edit page",
+     "artifact"
+    ],
+    "links": [
+     "help-skill",
+     "help-basics"
+    ],
+    "summary": "Claude can change this page's colours, layout and features on request, publishing to the same link while the notes stay untouched. Ask for one change at a time, in one chat, and keep the Help notes in step.",
+    "source": "starter",
+    "created": "2026-11-22T12:00:00.000Z",
+    "updated": "2026-11-22T12:00:00.000Z",
+    "summarised": "2026-11-22T12:00:00.000Z",
+    "words": 330,
+    "pinned": false
+   },
+   "body": {
+    "text": "Claude Notes is one page of HTML that Claude published for you. Claude can change it: colours, layout, buttons, new features. Your notes are kept in the page's database, so changing the page does not touch them.\n\n## How to ask\n1. Open a chat with Claude where the artifact tools are available (the Claude app or claude.ai).\n2. Say what you want and where, with the page's link: \"In Claude Notes, make the sidebar narrower on desktop\" or \"add a button to the note bar that copies the note as plain text\".\n3. Claude reads the page, makes the change, tests it where it can, and publishes it to the same link. Reload the page to see it.\n4. Check it on the devices you use; ask for adjustments in the same chat.\n\n## Tips\n- **One thing at a time** works best, and say which screen it is for (phone, tablet, desktop) if it matters.\n- **Describe what you see**, not the code: \"the button next to the text is hard to see\" is enough.\n- **Keep to one chat at a time** for page changes. Two chats editing the page at once can overwrite each other.\n- **Ask for the Help notes to be updated** with the change, so the help keeps matching the page.\n- **Undo**: earlier versions stay in the artifact's history; ask Claude to go back to the previous version if a change doesn't suit you.\n- **Don't delete the artifact**: deleting it erases every note. Download a copy first (Settings → Download all) if you ever need to start again.\n\n## Ideas\n- Your own colour scheme, or the accent colour on more buttons.\n- Different sections in the sidebar, or a different order.\n- New Claude buttons, such as \"translate this note\" or \"turn this into a checklist\".\n- Templates for new notes, such as meeting notes with set headings.\n\nSee also [[Claude Notes skill and scheduled tasks]] and [[Claude Notes basics]].\n",
+    "updated": "2026-11-22T12:00:00.000Z"
+   }
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "claude-notes",
+  "version": "0.1.0",
+  "description": "A private notes page inside Claude, on every device, with Claude built in: a notes artifact with its own database, a /notes skill to work with notes from any chat, and a setup skill.",
+  "author": {
+    "name": "David Wren"
+  },
+  "license": "MIT",
+  "keywords": ["notes", "artifact", "to-do", "knowledge"]
+}
