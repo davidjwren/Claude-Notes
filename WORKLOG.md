@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (sidebar hover)
+
+Live page is version 80. Sidebar rows (folders, Most recent, Help, GitHub) show the note list's hover: the tint plus a slim accent bar on the left; the open folder keeps a solid bar. One CSS rule on `.frow`, asked for in a comment.
+
 ## 2026-11-24 (note bar buttons; Web Saves drop-down)
 
 Live page is version 79. Actions and Edit/Done in the note bar are 1pt bigger again (12.33px, `.modebtn`), asked for in a comment. Another session had replaced the four Web Saves buttons with one drop-down (`#wssel`, "Tidy Web Saves with Claude…"); that is kept on the live page and copied into the repo, and `p34.js` now drives the drop-down. The Help note still says "four buttons".
