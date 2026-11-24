@@ -23,14 +23,24 @@ A first line that repeats the note's title is hidden in the reader, so imported 
 - [ ] open task
 - [x] done task
 ```
-Nested lists show as one flat list. Task boxes are for display; tick a task by editing the text or asking Claude ("done <task>").
+Nested lists show as one flat list. Tick a task box in the reader to mark it done; in a To-do list the task also moves under `## Done`.
 
 ## Quotes, rules and code
 ```
 > quoted text
 ---
 ```
-Three backticks on their own line open and close a code block.
+Three backticks on their own line open and close a code block. A word after the opening backticks names the language (`json`, `yaml`, `python`), which **Format code** in the Actions menu uses.
+
+## Diagrams
+Put the word `mermaid` straight after the opening backticks and the block shows as a diagram in the reader, drawn by the Mermaid library (flowcharts, mind maps, timelines, sequence diagrams and more). The one below is live: press Edit to see its text.
+
+```mermaid
+flowchart LR
+  Draft --> Review --> Done
+```
+
+Edit and View mode show the text. If the diagram has a mistake, the reader shows the text with the error under it.
 
 ## Tables
 ```

@@ -48,7 +48,8 @@ Claude Notes addresses two problems:
 - **Chat** about the open note: summarise, rewrite, find gaps, draft from it; insert the answer or save it as a new note.
 - **Auto-improve**: suggests keywords, links to your other notes and the sources a note names; you choose what to apply.
 - **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
-- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF) and **Share**.
+- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Format code** (JSON, YAML and Python blocks, reviewed before and after) and **Share**.
+- **Mermaid diagrams**: a code block marked `mermaid` shows as a diagram in the reader.
 - **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks) and a **usage ring** estimating the tokens the page used in the last 5 hours against your own budget.
 - **To-do lists you can tick** in the reader: a ticked task is dated and moves to Done, in the same format the `/notes` skill writes.
 - A two-line **summary box** at the top of each note (written by Claude, refreshed by an optional nightly task).

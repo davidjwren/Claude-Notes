@@ -1,5 +1,19 @@
 # Worklog
 
+## 2026-11-24 (later): Phase 2, and two fixes
+
+Live page published as version 59.
+
+- Graph view and Statistics are left out of the button rule: their controls are plain again (one CSS block scoped to `.graphview, .statsview`).
+- Statistics heatmap looked blank: the shade was a share of the busiest day, and the import day (221 notes) pushed every other day to the faintest step. Now fixed steps (1, 2 to 3, 4 to 7, 8 or more), and the first step is a little darker.
+- Mermaid: a `mermaid` code block is drawn in the reader (`mmdSvg`, `drawMermaid`); mermaid 10.9.1 loads from jsdelivr on first use; redrawn on theme change.
+- Mind map this note (Actions): one Claude call, checked by `mermaid.parse`, preview, then Insert or Discard.
+- Format code (Actions): JSON by `JSON.parse`, YAML by the `yaml` package (`import()` of its jsdelivr `+esm` build), Python by Claude with a white-space-only check. It reuses the Auto-improve dialog.
+
+Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
+
+Not done: Phases 3 to 5.
+
 ## 2026-11-24: build brief, Phase 1 and 1b
 
 Built from `docs/build-brief.md` (kept local, not committed). Live page published as version 58.

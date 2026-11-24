@@ -42,9 +42,11 @@ Everything you can do on the notes page, in one place. For how the page looks on
 ## Claude on the page
 - **Summary box**: a two-line summary at the top of most notes, written by Claude and refreshed nightly after edits.
 - **Chat** (speech bubble): ask about the open note; insert the answer, replace the note text, or save it as a new note.
-- **Actions menu**: the Actions button in the note bar (three dots on a phone) holds Auto-improve, Write with Claude, Summarise and Share. It works in the reader and in Edit; in the reader, new text goes at the end of the note.
+- **Actions menu**: the Actions button in the note bar (three dots on a phone) holds Auto-improve, Write with Claude, Summarise, Mind map this note, Format code and Share. It works in the reader and in Edit; in the reader, new text goes at the end of the note.
 - **Auto-improve**: suggests keywords, links to other notes and sources the note names. You tick what to apply; Undo reverses it.
 - **Summarise**: choose **This note** (the summary goes at the top under `## Summary`, with Undo) or **A document** (text, markdown, HTML, CSV, Word or PDF), a length and a model.
+- **Mind map this note**: Claude draws the note's structure as a mind map. You see a preview first; Insert adds it to the note as a `mermaid` block, Discard drops it.
+- **Format code**: tidies the code blocks marked `json`, `yaml` or `python` in the open note. Each block is shown before and after with a tick box; only ticked blocks change, and Undo reverses it. JSON and YAML are formatted on the page (YAML comments are kept); Python is re-spaced by Claude and refused if anything but spacing changed. It formats; it does not check the code for mistakes.
 - **Share**: opens your device's share sheet with the note's title and text. Where Claude blocks the share sheet, it copies the text instead and says "Copied".
 - **Paragraph tools**: in the reader (not in Edit), the sparkle button beside a paragraph offers Rewrite, Shorten, Expand and Fact-check.
 - **Fact-check**: lists the checkable claims in one paragraph with a verdict each (supported, doubtful, incorrect, can't verify), a reason and what to check. Claude has no live web access on this page: it checks against its own knowledge and your other notes, so verify anything important at source. Nothing changes in the note unless you choose Insert, which adds the result as a quote under the paragraph (Undo reverses it).
@@ -52,6 +54,7 @@ Everything you can do on the notes page, in one place. For how the page looks on
 - **Usage ring**: the ring in the sidebar footer shows the tokens this page's Claude features used in about the last 5 hours, against a budget you set (click it for today and 7 days, by feature and by model). It is an estimate at about 4 characters per token. The page cannot read your plan's real 5-hour usage, which only the Claude app's usage card shows, and cannot see Claude use outside this page.
 
 ## Other features
+- **Diagrams**: a code block marked `mermaid` shows as a diagram in the reader. See [[Markdown cheatsheet]].
 - **Statistics**: a 12-month activity heatmap, notes this day, week and month, and an estimate of Claude use on the page.
 - **Settings**: Light, Dark or System; day and night colour schemes; font; text size; the Claude models; Import. Settings apply on every device.
 - **Passwords links**: `[[passwords:Item name]]` shows a key chip that copies the item name to search in Apple Passwords. No secret is stored.
