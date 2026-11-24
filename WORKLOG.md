@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (colour scheme boxes)
+
+The Day and Night colour scheme pickers in Settings are no longer tinted: they take the page background and the same border as the Font and Text size boxes (asked for in a comment). One CSS rule, `.csbtn`.
+
 ## 2026-11-24 (button text)
 
 Live page published as version 72 (71 was a rename to "Notes" on the live page, made elsewhere and kept). Text on action buttons is 11px, 1pt up from 9.67px (asked for in a comment on the Edit button); the sidebar and the Graph and Statistics bars are unchanged.
