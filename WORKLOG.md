@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (last): bookmarklet removed
+
+The Web Saves bookmarklet was clunky in use, so it is gone: `docs/bookmarklet.md` deleted, and its mentions taken out of the README, the skill (SKILL.md, web-saves.md) and the Help note "Web Saves in Claude Notes" (starter and live). Captures now come only from "save to Web Saves" in a chat. The page never held bookmarklet code, so it stays at version 69.
+
 ## 2026-11-24 (late night): Format code takes XML
 
 Live page published as version 69.

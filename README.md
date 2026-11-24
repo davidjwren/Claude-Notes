@@ -50,7 +50,7 @@ Claude Notes addresses two problems:
 - **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph, or draw it (or the text you selected) as a process diagram. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
 - **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML, XML and Python blocks, reviewed before and after) and **Share**.
 - **Mind maps across notes**: of a note's links (drawn without Claude), or of a whole folder or search, grouped by Claude from titles, tags, keywords and summaries only, and saved as a note whose names open the notes.
-- **Web Saves**: capture pages from any browser with a [bookmarklet](docs/bookmarklet.md) or "save to Web Saves" in a chat; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.
+- **Web Saves**: give Claude a link or pasted text and say "save to Web Saves"; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.
 - **Ideas** on the start page, written by an optional nightly task from your recent notes, searches and opened notes.
 - **Mermaid diagrams**: a code block marked `mermaid` shows as a diagram in the reader.
 - **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks) and a **usage ring** estimating the tokens the page used in the last 5 hours against your own budget.
@@ -216,7 +216,6 @@ claude-notes/
 │   └── help/                      the same notes as markdown, for reading on GitHub
 └── docs/
     ├── scheduled-tasks.md         prompts for the optional scheduled tasks
-    ├── bookmarklet.md             the Web Saves bookmarklet and how to install it
     └── screenshots/
 ```
 
