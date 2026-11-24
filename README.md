@@ -47,7 +47,7 @@ Claude Notes addresses two problems:
 **Claude, inside the page** (on your Claude subscription)
 - **Chat** about the open note: summarise, rewrite, find gaps, draft from it; insert the answer or save it as a new note.
 - **Auto-improve**: suggests keywords, links to your other notes and the sources a note names; you choose what to apply.
-- **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
+- **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph, or draw it (or the text you selected) as a process diagram. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
 - **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML and Python blocks, reviewed before and after) and **Share**.
 - **Mind maps across notes**: of a note's links (drawn without Claude), or of a whole folder or search, grouped by Claude from titles, tags, keywords and summaries only, and saved as a note whose names open the notes.
 - **Web Saves**: capture pages from any browser with a [bookmarklet](docs/bookmarklet.md) or "save to Web Saves" in a chat; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.

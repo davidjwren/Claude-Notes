@@ -1,5 +1,17 @@
 # Worklog
 
+## 2026-11-24 (night): large mind maps, process diagram, tabbed Settings
+
+Live page published as version 68.
+
+- Mind maps have two layouts (`mmSvg` picks, `mmDraw` draws). A map whose ring would be wider than 760px (358px on a phone) is drawn as a tree: centre in the middle with branches down both sides, or on a phone the centre on top and the branches in a chain under it. Type is larger in the tree (lists 11px) and the map grows down the page. The ring's first circle of spokes is now only as long as its circles need.
+- Process diagram in the paragraph tools (`runFlow`): Claude returns a mermaid flowchart of the paragraph, or of the text selected in the reader; mermaid parses and draws it; it reuses the mind map dialog and goes in under the paragraph.
+- Settings has four tabs down the left, styled like the sidebar: Appearance, Model Selection, Security (a placeholder until Phase 5) and Import/Export.
+- Text action buttons (`.btn`) are 4pt smaller (9.67px), except in the sidebar and the Graph and Statistics bars.
+- Tests: `p5.js` (7 checks), `mm.js` now also checks that no line crosses a circle it does not join and that the text is not shrunk below 0.75.
+
+Not done from the mind map ideas: staggered spoke lengths, detail spokes turning back to the centre, and several centres in one map (mermaid allows one root).
+
 ## 2026-11-24 (evening): Phases 3 and 4
 
 Live page published as version 67.
