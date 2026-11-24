@@ -145,7 +145,9 @@ def main():
                 while lines and not lines[-1].strip(): lines.pop()
                 lines += ['', '## Done', line]
             else:
-                lines.insert(done_at + 1, line)
+                end = next((i for i in range(done_at + 1, len(lines)) if lines[i].startswith('#')), len(lines))
+                while end > done_at + 1 and not lines[end - 1].strip(): end -= 1
+                lines.insert(end, line)  # end of the Done section, as the page does when a task is ticked there
         text = '\n'.join(lines).strip('\n') + '\n'
         open(path, 'w', encoding='utf-8').write(text)
         print(text)

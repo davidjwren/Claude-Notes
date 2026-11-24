@@ -47,8 +47,10 @@ Claude Notes addresses two problems:
 **Claude, inside the page** (on your Claude subscription)
 - **Chat** about the open note: summarise, rewrite, find gaps, draft from it; insert the answer or save it as a new note.
 - **Auto-improve**: suggests keywords, links to your other notes and the sources a note names; you choose what to apply.
-- **Paragraph tools**: rewrite, shorten or expand one paragraph.
-- **Write with Claude** and **Summarise a document** (text, markdown, HTML, CSV, Word or PDF) in the editor.
+- **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
+- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF) and **Share**.
+- **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks) and a **usage ring** estimating the tokens the page used in the last 5 hours against your own budget.
+- **To-do lists you can tick** in the reader: a ticked task is dated and moves to Done, in the same format the `/notes` skill writes.
 - A two-line **summary box** at the top of each note (written by Claude, refreshed by an optional nightly task).
 
 **Claude, from any chat** (the `/notes` skill)

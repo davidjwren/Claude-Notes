@@ -91,7 +91,7 @@ Each to-do list is an ordinary note in the `To-do` folder, so it shows on the pa
   - [x] Renew the car insurance · done 22 Nov 2026
   ```
 
-  Open tasks sit at the top, newest last. Add ` · due <d Mon yyyy>` only when the user gives a date. Ticking a task changes `[ ]` to `[x]`, adds ` · done <date>`, and moves the line under `## Done` (create the heading if missing). Match the task the user names by its words; if two tasks match, ask which.
+  Open tasks sit at the top, newest last. Add ` · due <d Mon yyyy>` only when the user gives a date. Ticking a task changes `[ ]` to `[x]`, adds ` · done <date>`, and moves the line to the end of the `## Done` section (create the heading if missing). The page does the same when the user ticks a box there; unticking removes the suffix and returns the line to the end of the open tasks. Match the task the user names by its words; if two tasks match, ask which.
 - Several tasks in one request are added in the order given, in one write.
 - Use `scripts/notes_helper.py todo-add` and `todo-done` where code execution is available.
 - Showing a list: open tasks only, as a plain list, plus the count done in the last 7 days if any.

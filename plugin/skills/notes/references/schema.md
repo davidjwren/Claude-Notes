@@ -63,13 +63,13 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 
 ## Activity (Statistics view)
 
-`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {…}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record, add `edited.<id>`, and `set` it back with its version (or create it). Leave `tokens` alone: it counts the page's own Claude features.
+`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {<feature>: n}, hours: {<HH>: n}, models: {<model id>: n}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record, add `edited.<id>`, and `set` it back with its version (or create it). Leave `tokens`, `hours` and `models` alone: they count the page's own Claude features (by feature, by local hour 00 to 23, and by the model asked for).
 
 ## Other records (read only for Claude unless a reference file says otherwise)
 
 | Record | Holds |
 |---|---|
-| `meta/settings` | Theme, day and night colour schemes, font, text size |
+| `meta/settings` | Theme, day and night colour schemes, font, text size, plus `model` and `factModel` (`haiku`, `sonnet`, `opus` or `fable`) and `budget` (estimated tokens per 5 hours for the usage ring) |
 | `meta/folders` | `{pinned: [folder keys]}`, pinned folders, lower case |
 | `meta/backup` | Last nightly backup, if a backup task is set up: time, file id, note count |
 | `meta/github`, `meta/githubprefs`, `meta/ghapplied` | GitHub sync (see github-sync.md); `meta/githubprefs` holds `owner` and `exclude` |
