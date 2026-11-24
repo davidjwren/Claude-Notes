@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (note bar buttons; Web Saves drop-down)
+
+Live page is version 79. Actions and Edit/Done in the note bar are 1pt bigger again (12.33px, `.modebtn`), asked for in a comment. Another session had replaced the four Web Saves buttons with one drop-down (`#wssel`, "Tidy Web Saves with Claude…"); that is kept on the live page and copied into the repo, and `p34.js` now drives the drop-down. The Help note still says "four buttons".
+
 ## 2026-11-24 (live edits from another session)
 
 Live page is version 77. While the colour scheme change was going out, another session published to the live page several times. Those edits were kept on the live page and copied into the repo: the brand reads "Notes" on the live page only (repo still "Claude Notes"); selects draw their own drop-down arrow; "Mind map the links" is now "Map Links"; larger colour chips in the scheme pickers; Settings headings in the accent colour. Make page changes from one conversation at a time, or each publish has to be merged by hand.
