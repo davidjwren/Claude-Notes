@@ -15,6 +15,8 @@ Live page published as version 59.
 - Follow-up (version 61): mind maps are two colours from the page tokens (accent for root, branches and outlines; ink for words), by CSS over mermaid's own SVG classes, so palettes and dark mode follow with no redraw. Other diagram types keep mermaid's theme.
 - For Phase 5: every option that sends an encrypted note to Claude must confirm first, with a Security setting to turn that off. Written into item 16 of the build brief.
 
+- Follow-up (version 62): all diagrams take their look from the page (`mmdLook`: page font at 13px, thin quiet lines, accent outlines; `mmdPut` shrinks arrowheads and rounds boxes). Mermaid loading from jsdelivr is confirmed working in the real Claude frame on iPhone.
+
 Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
 
 Not done: Phases 3 to 5.

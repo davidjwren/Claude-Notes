@@ -405,10 +405,12 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
 .mmdout{margin:.9em 0;overflow-x:auto}.mmdout svg{max-width:100%;height:auto}.mmderr{white-space:pre-wrap}
 /* Mind maps are two colours taken from the page's own tokens, so every colour scheme and dark mode follow without a redraw:
    the accent for the root, the branches and the outlines; the ink for the words (the root's words take the page colour, to read on the accent) */
-.mmdout svg[aria-roledescription=mindmap] .edge{stroke:var(--acc)!important}
-.mmdout svg[aria-roledescription=mindmap] .mindmap-node .node-bkg{fill:var(--bg)!important;stroke:var(--acc)!important;stroke-width:1.5px}
+.mmdout :is(.flowchart-link,.relation,.messageLine0,.messageLine1,.transition){stroke-width:1.1px!important}
+.mmdout :is(.node,.cluster,.actor,.classGroup,.statediagram-state) :is(rect,polygon,circle,ellipse,path){stroke-width:1px!important}
+.mmdout svg[aria-roledescription=mindmap] .edge{stroke:var(--acc)!important;stroke-width:1.6px!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node .node-bkg{fill:var(--bg)!important;stroke:var(--acc)!important;stroke-width:1px}
 .mmdout svg[aria-roledescription=mindmap] .mindmap-node .node-no-border{stroke:none!important}
-.mmdout svg[aria-roledescription=mindmap] .mindmap-node line{stroke:var(--acc)!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node line{stroke:var(--acc)!important;stroke-width:1.2px!important}
 .mmdout svg[aria-roledescription=mindmap] .mindmap-node rect.background{fill:none!important}
 .mmdout svg[aria-roledescription=mindmap] .mindmap-node text{fill:var(--ink)!important}
 .mmdout svg[aria-roledescription=mindmap] .section-root .node-bkg{fill:var(--acc)!important}
@@ -892,7 +894,7 @@ function applySettings() {
   renderPalBtn('palday', settings.day); renderPalBtn('palnight', settings.night);
   const fo = FONTS.find(x => x[0] === settings.font) || FONTS[0]; $('fonts').value = fo[0]; $('fonts').style.fontFamily = fo[2];
   $('setmodel').value = modelKey(); $('setfact').value = modelKey('fact'); $('pfactlbl').textContent = `Fact-check (uses ${MODELS[modelKey('fact')][2]})`; renderRing();
-  if (mmdTheme && mmdTheme !== mode && !$('reader').hidden && $('rbody').querySelector('.mmdout')) renderReader(); // diagrams are redrawn in the new theme
+  if (mmdTheme && mmdTheme !== JSON.stringify(mmdLook()) && !$('reader').hidden && $('rbody').querySelector('.mmdout')) renderReader(); // diagrams are redrawn when the theme, colour scheme or font changes
 }
 new MutationObserver(() => { if (settings.theme === 'system') applySettings(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 darkQuery.addEventListener('change', () => { if (settings.theme === 'system') applySettings(); });
@@ -1526,15 +1528,24 @@ const MAX_DOC = 180000;
 /* Mermaid: a ```mermaid block is drawn as a diagram in the reader only (Edit and View mode keep the text). The library loads the first time one is needed.
    securityLevel strict makes mermaid sanitise its own output; parse runs first, so a bad diagram throws here and leaves its source on the page. */
 let mmdN = 0, mmdTheme = '';
+// The diagram's look comes from the page: its font at a small size, quiet thin lines, the accent for outlines. Mermaid needs real colour values, so they are read from the tokens.
+const mmdLook = () => { const c = getComputedStyle(document.documentElement), v = k => c.getPropertyValue(k).trim(); return { darkMode: resolvedMode() === 'dark', fontFamily: getComputedStyle(document.body).fontFamily, fontSize: '13px', background: v('--bg'), primaryColor: v('--side'), primaryTextColor: v('--ink'), primaryBorderColor: v('--acc'), lineColor: v('--quiet'), secondaryColor: v('--panel'), tertiaryColor: v('--bg'), textColor: v('--ink'), edgeLabelBackground: v('--bg'), clusterBkg: v('--bg'), clusterBorder: v('--rule'), noteBkgColor: v('--panel'), noteTextColor: v('--ink'), noteBorderColor: v('--rule') }; };
+// Put a drawn diagram into the page, then make the arrowheads smaller and the boxes lightly rounded (mermaid has no setting for either)
+function mmdPut(el, svg) {
+  el.innerHTML = svg;
+  for (const m of el.querySelectorAll('marker')) for (const a of ['markerWidth', 'markerHeight']) if (m.getAttribute(a) > 0) m.setAttribute(a, m.getAttribute(a) * 0.6);
+  for (const r of el.querySelectorAll('.node rect, .cluster rect')) { r.setAttribute('rx', 5); r.setAttribute('ry', 5); }
+}
 async function mmdSvg(src) {
   await loadScript(LIB.mermaid);
-  mmdTheme = resolvedMode(); window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: mmdTheme === 'dark' ? 'dark' : 'default' });
+  const look = mmdLook(); mmdTheme = JSON.stringify(look);
+  window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: look, flowchart: { padding: 12, nodeSpacing: 34, rankSpacing: 40 } });
   await window.mermaid.parse(src);
   return (await window.mermaid.render('mmd' + (++mmdN), src)).svg;
 }
 async function drawMermaid() {
   for (const el of $('rbody').querySelectorAll('pre.mmd')) {
-    try { const svg = await mmdSvg(el.textContent); if (el.isConnected) { const d = document.createElement('div'); d.className = 'mmdout'; d.innerHTML = svg; el.replaceWith(d); } }
+    try { const svg = await mmdSvg(el.textContent); if (el.isConnected) { const d = document.createElement('div'); d.className = 'mmdout'; mmdPut(d, svg); el.replaceWith(d); } }
     catch (e) { if (el.isConnected && !(el.nextElementSibling && el.nextElementSibling.classList.contains('mmderr'))) el.insertAdjacentHTML('afterend', `<p class="hint bad mmderr">This diagram could not be drawn. ${esc(String(e && e.message || e).slice(0, 400))}</p>`); }
   }
 }
@@ -1549,7 +1560,7 @@ async function runMap() {
     const r = await sample(prompt, { signal: ctl.signal, ...mo, cache: false }); logTokens('mindmap', estTokens(prompt, r.text), mo.model);
     const text = r.text.replace(/^\s*```\w*\s*\n|\n```\s*$/g, '').trim();
     let svg; try { svg = await mmdSvg(text); } catch (e) { $('mmsg').textContent = /^Could not load/.test(e && e.message) ? 'The diagram library could not be loaded. Check your connection and try again.' : 'Claude’s answer was not a mind map that can be drawn. Try again.'; return; }
-    mapText = text; $('mout').innerHTML = svg; $('mmsg').textContent = answeredBy(r, mo); $('mdiscard').hidden = $('minsert').hidden = false;
+    mapText = text; mmdPut($('mout'), svg); $('mmsg').textContent = answeredBy(r, mo); $('mdiscard').hidden = $('minsert').hidden = false;
   } catch (e) { $('mmsg').textContent = aiError(e); aiGone(e); }
   finally { $('mstop').hidden = true; if (aiCtl === ctl) aiCtl = null; }
 }
