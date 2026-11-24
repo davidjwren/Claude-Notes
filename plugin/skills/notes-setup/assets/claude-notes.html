@@ -401,6 +401,9 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
 :is(.graphview,.statsview) .btn.ghost:not([aria-pressed=true]){border-color:var(--rule)}
 :is(.graphview,.statsview) :is(.ib,.btn.ghost):hover{background:var(--panel)}
 :is(.graphview,.statsview) .seg button.on{background:var(--sel);color:var(--ink)}
+/* So are the two sidebar rows that open them: plain against the sidebar, with their icon */
+#graphbtn,#statsbtn{background:transparent;border-color:transparent}
+#graphbtn:hover,#statsbtn:hover:not(.on){background:var(--panel)}
 /* Diagrams in the reader, and the before and after of Format code */
 .mmdout{margin:.9em 0;overflow-x:auto}.mmdout svg{max-width:100%;height:auto}.mmderr{white-space:pre-wrap}
 /* Mind maps (drawn by the page): a ring of circles in two colours from the page's own tokens, so every colour scheme and dark mode follow.

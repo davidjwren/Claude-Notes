@@ -19,6 +19,8 @@ Live page published as version 59.
 
 - Follow-up (version 63): mind maps are now drawn by the page, not mermaid (`mmParse`, `mmSvg`, `mmHtml`, `mmIcons`): a ring layout of circles, icons on the centre and main branches, key-point boxes beside or under the map. The note text stays mermaid mindmap syntax; `::icon(name)` takes a Material Symbols name and `%% box: Title | text` lines are the boxes. Font Awesome cannot load in the Claude frame (only Google Fonts stylesheets and fonts are allowed), so icons come from Google's Material Symbols, fetched as a subset of just the names used. The earlier mermaid mind map CSS is gone.
 
+- Follow-up (version 64): the two sidebar rows, Graph view and Statistics, are plain again too (that is what was meant by excluding them); the controls on those two pages stay plain as well.
+
 Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
 
 Not done: Phases 3 to 5.
