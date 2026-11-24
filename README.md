@@ -48,12 +48,12 @@ Claude Notes addresses two problems:
 - **Chat** about the open note: summarise, rewrite, find gaps, draft from it; insert the answer or save it as a new note.
 - **Auto-improve**: suggests keywords, links to your other notes and the sources a note names; you choose what to apply.
 - **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph, or draw it (or the text you selected) as a process diagram. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
-- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML, XML and Python blocks, reviewed before and after) and **Share**.
+- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML, XML and Python blocks, reviewed before and after), **Export as Markdown** and **Export as PDF** (in the day colours of your scheme).
 - **Mind maps across notes**: of a note's links (drawn without Claude), or of a whole folder or search, grouped by Claude from titles, tags, keywords and summaries only, and saved as a note whose names open the notes.
 - **Web Saves**: give Claude a link or pasted text and say "save to Web Saves"; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.
 - **Ideas** on the start page, written by an optional nightly task from your recent notes, searches and opened notes.
 - **Mermaid diagrams**: a code block marked `mermaid` shows as a diagram in the reader. Other code blocks that name their language are syntax-coloured in your colour scheme.
-- **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks) and a **usage ring** estimating the tokens the page used in the last 5 hours against your own budget.
+- **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks).
 - **To-do lists you can tick** in the reader: a ticked task is dated and moves to Done, in the same format the `/notes` skill writes.
 - A two-line **summary box** at the top of each note (written by Claude, refreshed by an optional nightly task).
 

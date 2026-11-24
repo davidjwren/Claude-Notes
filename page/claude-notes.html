@@ -439,9 +439,7 @@ select{appearance:none;-webkit-appearance:none;padding-right:26px!important;back
 @media(max-width:599px){.fmt{grid-template-columns:1fr}}
 .pagebar{gap:4px}.kbact{gap:4px}.crumbs{gap:4px}
 @media(max-width:599px){.pagebar{gap:3px}}
-/* Usage ring (sidebar footer and its dialog) and fact-check verdicts */
-.ring{display:flex;align-items:center;gap:8px;width:100%;min-height:40px;padding:4px 10px;border-radius:8px;font-size:calc(12.5px + var(--fd));text-align:left}
-.ring svg{width:28px;height:28px}.ringbig{display:flex;align-items:center;gap:16px;margin:12px 0}.ringbig svg{width:96px;height:96px}
+/* Fact-check verdicts */
 .rtrack{stroke:var(--b2e);opacity:.45}.rfill{stroke:var(--acc)}
 .fc{padding:8px 0;border-bottom:1px solid var(--rule);font-size:calc(14px + var(--fd))}.fc small{color:var(--quiet)}
 .vd{display:inline-block;margin-right:6px;padding:0 8px;border:1px solid var(--edge);border-radius:999px;font-size:.85em;font-weight:600}.vd.bad{border-color:var(--bad);color:var(--bad)}
@@ -463,7 +461,6 @@ select{appearance:none;-webkit-appearance:none;padding-right:26px!important;back
     <nav id="folders" class="folders"></nav>
     <div class="sidefoot">
       <div id="backup" class="backup"></div>
-      <button id="ringbtn" class="ring" type="button"></button>
       <button id="trashbtn" class="rowbtn" type="button" data-icon="trash">Recently deleted</button>
       <button id="setbtn" class="rowbtn" type="button" data-icon="settings">Settings</button>
     </div>
@@ -576,12 +573,6 @@ select{appearance:none;-webkit-appearance:none;padding-right:26px!important;back
   <div class="row"><h2 id="mh" style="flex:1;margin:0">Mind map this note</h2><button class="ib" type="button" data-close="mapveil" data-icon="close" aria-label="Close"></button></div>
   <p id="mmsg" class="hint" style="margin:10px 0 0" aria-live="polite"></p><div id="mout" class="mmdout"></div>
   <div class="row end" style="margin-top:12px"><button id="mstop" class="btn ghost" type="button" hidden>Stop</button><button id="mexport" class="btn ghost" type="button" data-icon="download" hidden>Export to Mermaid</button><button id="mgroup" class="btn ghost" type="button" data-icon="sparkle" hidden>Ask Claude to group the branches</button><button id="mdiscard" class="btn ghost" type="button" hidden>Discard</button><button id="minsert" class="btn" type="button" hidden>Insert into note</button></div>
-</div></div>
-<div id="useveil" class="veil" hidden><div class="box wide" role="dialog" aria-modal="true" aria-labelledby="uh">
-  <div class="row"><h2 id="uh" style="flex:1;margin:0">Claude usage by this page</h2><button class="ib" type="button" data-close="useveil" data-icon="close" aria-label="Close"></button></div>
-  <div id="usebody"></div>
-  <h3><label for="budget">5-hour budget for notes (estimated tokens)</label></h3><input id="budget" class="mvq" type="number" min="1000" step="1000" inputmode="numeric">
-  <p class="hint" style="margin:12px 0 0">This is the page’s own estimate, at about 4 characters per token, of what its Claude features sent and received. The page cannot read your plan’s real 5-hour usage (only the Claude app’s usage card shows that) and cannot see Claude use outside this page. The window is this hour and the four before it, so “5 hours” is approximate. It keeps 8 days of figures, in a record of its own that only this page writes.</p>
 </div></div>
 <aside id="chat" class="chat" aria-label="Chat with Claude" hidden>
   <div class="chathead"><div class="ttl"><b>Chat with Claude</b><small id="chatabout"></small></div>
@@ -923,7 +914,7 @@ function applySettings() {
   for (const b of $('themes').children) b.classList.toggle('on', b.dataset.themeOpt === settings.theme);
   renderPalBtn('palday', settings.day); renderPalBtn('palnight', settings.night);
   const fo = FONTS.find(x => x[0] === settings.font) || FONTS[0]; $('fonts').value = fo[0]; $('fonts').style.fontFamily = fo[2];
-  $('setmodel').value = modelKey(); $('setfact').value = modelKey('fact'); $('pfactlbl').textContent = `Fact-check (uses ${MODELS[modelKey('fact')][2]})`; renderRing();
+  $('setmodel').value = modelKey(); $('setfact').value = modelKey('fact'); $('pfactlbl').textContent = `Fact-check (uses ${MODELS[modelKey('fact')][2]})`;
   if (mmdTheme && mmdTheme !== JSON.stringify(mmdLook()) && !$('reader').hidden && $('rbody').querySelector('.mmdout')) renderReader(); // diagrams are redrawn when the theme, colour scheme or font changes
 }
 new MutationObserver(() => { if (settings.theme === 'system') applySettings(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1561,7 +1552,7 @@ function runWrite() {
 
 /* Summarise: read the file in the browser, then ask Claude */
 const LIB = { jszip: 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js', pdf: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js', pdfw: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js',
-  mermaid: 'https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js', hljs: 'https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/highlight.min.js', yaml: 'https://cdn.jsdelivr.net/npm/yaml@2.4.5/+esm' };
+  mermaid: 'https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js', hljs: 'https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/highlight.min.js', pdfmake: 'https://cdn.jsdelivr.net/npm/pdfmake@0.2.10/build/pdfmake.min.js', pdffonts: 'https://cdn.jsdelivr.net/npm/pdfmake@0.2.10/build/vfs_fonts.js', yaml: 'https://cdn.jsdelivr.net/npm/yaml@2.4.5/+esm' };
 const scripts = {};
 const loadScript = src => scripts[src] || (scripts[src] = new Promise((res, rej) => { const el = document.createElement('script'); el.src = src; el.onload = res; el.onerror = () => { delete scripts[src]; rej(new Error('Could not load ' + src)); }; document.head.append(el); }));
 const MAX_DOC = 180000;
@@ -1576,10 +1567,10 @@ function mmdPut(el, svg) {
   for (const m of el.querySelectorAll('marker')) for (const a of ['markerWidth', 'markerHeight']) if (m.getAttribute(a) > 0) m.setAttribute(a, m.getAttribute(a) * 0.6);
   for (const r of el.querySelectorAll('.node rect, .cluster rect')) { r.setAttribute('rx', 5); r.setAttribute('ry', 5); }
 }
-async function mmdSvg(src) {
+async function mmdSvg(src, day, plain) { // day: a look to draw in, for the PDF, in place of the page's current one; plain: labels as svg text, which a picture can hold
   await loadScript(LIB.mermaid);
-  const look = mmdLook(); mmdTheme = JSON.stringify(look);
-  window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: look, flowchart: { padding: 12, nodeSpacing: 34, rankSpacing: 40 } });
+  const look = day || mmdLook(); if (!day) mmdTheme = JSON.stringify(look);
+  window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: look, flowchart: { padding: 12, nodeSpacing: 34, rankSpacing: 40, htmlLabels: !plain } });
   await window.mermaid.parse(src);
   return (await window.mermaid.render('mmd' + (++mmdN), src)).svg;
 }
@@ -2082,11 +2073,97 @@ function undoImprove() {
   $('body').value = aiUndo.body; $('kw').value = aiUndo.kw; aiUndo = null; $('undoai').hidden = true; onEdit(); if (mode === 'read') renderReader();
 }
 
-/* Share: the device's share sheet where the frame allows it, else the clipboard */
-async function shareNote() {
-  if (!current) return; const text = $('body').value;
-  try { await navigator.share({ title: $('title').value.trim() || 'Untitled', text }); }
-  catch (e) { if (e && e.name === 'AbortError') return; const ok = await copyText(text); setSaved(ok ? 'Copied' : 'Sharing and copying are blocked here', !ok); }
+/* Export this note as a file, in place of the share sheet (which the frame often blocks).
+   Markdown: the note's text, under its title. PDF: laid out by pdfmake (loaded the first time it is needed) from the same HTML the reader shows, in light mode
+   with the day colour scheme whatever the page is showing; diagrams go in as pictures.
+   shortcut: pdfmake ships one font (Roboto), so the PDF does not use the page's font, code is not monospaced and characters outside Latin, Greek and Cyrillic
+   are missing; register more fonts with pdfmake if that matters */
+const fileName = t => (t.trim() || 'Untitled').replace(/[\\/:*?"<>|\n]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80) || 'Untitled';
+async function saveFile(name, data) {
+  if (!dl) return setSaved('Saving files is not available in this view.', true);
+  try { await dl.save({ filename: name, data }); setSaved('Saved as ' + name); }
+  catch (e) { if (errCode(e) === 'declined') setSaved(''); else setSaved('Not saved (' + errCode(e) + ')', true); }
+}
+// The text without a first line or heading that repeats the title (as the reader shows it)
+function bodyLessTitle() { const src = $('body').value, lead = src.match(/^\s*(?:#{1,6}\s+)?([^\n]*)(?:\n|$)/), t = $('title').value.trim().toLowerCase(); return t && lead && lead[1].trim().toLowerCase() === t ? src.slice(lead[0].length) : src; }
+async function exportMd() {
+  if (!current) return; const t = $('title').value.trim() || 'Untitled', tags = parseTags($('tags').value).tags;
+  await saveFile(fileName(t) + '.md', `# ${t}\n\n${tags.length ? 'Tags: ' + tags.join(', ') + '\n\n' : ''}${bodyLessTitle().trim()}\n`);
+}
+// Run fn with the page's styles switched to light mode and the day colour scheme. It is synchronous, so nothing is repainted in between.
+function inDay(fn) {
+  const r = document.documentElement, was = [r.dataset.mode, r.dataset.palette], pk = palKey(settings.day);
+  r.dataset.mode = 'light'; if (pk === 'vermilion') delete r.dataset.palette; else r.dataset.palette = pk;
+  try { return fn(); } finally { for (const [k, v] of [['mode', was[0]], ['palette', was[1]]]) if (v == null) delete r.dataset[k]; else r.dataset[k] = v; }
+}
+const svgPng = (xml, w, h) => new Promise((res, rej) => {
+  const im = new Image(); im.onerror = () => rej(new Error('image'));
+  im.onload = () => { try { const c = document.createElement('canvas'); c.width = Math.ceil(w * 2); c.height = Math.ceil(h * 2); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); res(c.toDataURL('image/png')); } catch (e) { rej(e); } };
+  im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+});
+// A drawn svg as a picture for the PDF: its size comes from its viewBox; resolves to null if it cannot be turned into one
+async function svgBlock(svg) {
+  try {
+    const vb = svg.getAttribute('viewBox').split(/[\s,]+/).map(Number), w = vb[2], h = vb[3];
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); svg.setAttribute('width', w); svg.setAttribute('height', h); svg.removeAttribute('style');
+    return { image: await svgPng(new XMLSerializer().serializeToString(svg), w, h), width: Math.min(495, w * 0.75), margin: [0, 4, 0, 10] };
+  } catch (e) { return null; }
+}
+async function exportPdf() {
+  if (!current) return; const title = $('title').value.trim() || 'Untitled', n = indexOf(current.id) || {}, tags = parseTags($('tags').value).tags;
+  setSaved('Making the PDF…');
+  try {
+    await loadScript(LIB.pdfmake); await loadScript(LIB.pdffonts);
+    const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-9999px;top:0;width:700px;visibility:hidden'; host.className = 'prose'; host.innerHTML = md(bodyLessTitle().replace(KB, '')); const work = host.cloneNode(false); document.body.append(host, work); // work: where diagrams are drawn, apart from the note's own HTML
+    // Colours and diagram styles are read in the day scheme
+    const pics = new Map(), maps = [...host.querySelectorAll('pre.mmd')].map(pre => [pre, mmParse(pre.textContent)]);
+    const L = inDay(() => {
+      const c = getComputedStyle(document.documentElement), v = k => c.getPropertyValue(k).trim();
+      for (const [pre, map] of maps) if (map) { // a mind map: drawn here, its colours written into the svg itself, its icons left out (their font cannot travel inside a picture)
+        const d = document.createElement('div'); d.className = 'mmdout'; d.innerHTML = mmHtml(map); work.append(d); const svg = d.querySelector('svg');
+        for (const el of svg.querySelectorAll('.mmi')) el.remove();
+        for (const el of svg.querySelectorAll('circle,line,text,tspan')) { const s = getComputedStyle(el); el.setAttribute('style', ['fill', 'stroke', 'stroke-width', 'font-size', 'font-weight', 'text-anchor'].map(k => `${k}:${s.getPropertyValue(k)}`).join(';') + ';font-family:Helvetica,Arial,sans-serif'); }
+        pics.set(pre, { svg, boxes: map.boxes });
+      }
+      return { bg: v('--bg'), side: v('--side'), rule: v('--rule'), quiet: v('--quiet'), ink: v('--ink'), acc: v('--acc'), sys: v('--sys'), look: { ...mmdLook(), darkMode: false, fontFamily: 'Helvetica, Arial, sans-serif' } };
+    });
+    for (const [pre, map] of maps) {
+      let svg = map ? pics.get(pre).svg : null;
+      if (!map) try { const d = document.createElement('div'); mmdPut(d, await mmdSvg(pre.textContent, L.look, true)); work.append(d); svg = d.querySelector('svg'); } catch (e) {}
+      const pic = svg && await svgBlock(svg);
+      pics.set(pre, pic ? [pic, ...(map ? map.boxes.map(([h, x]) => ({ text: [{ text: h + '. ', bold: true, color: L.acc }, x], fontSize: 9.5, margin: [0, 0, 0, 4] })) : [])] : null);
+    }
+    const inl = (el, st = {}) => [...el.childNodes].flatMap(x => {
+      if (x.nodeType === 3) return x.data ? [{ text: x.data, ...st }] : [];
+      if (x.nodeType !== 1 || x.tagName === 'svg') return []; const t = x.tagName;
+      if (t === 'BR') return [{ text: '\n' }];
+      if (t === 'INPUT') return [{ text: x.checked ? '[x]' : '[  ]', ...st, color: L.quiet }];
+      const href = t === 'A' && /^(https?:|mailto:)/.test(x.getAttribute('href') || '') ? x.href : '';
+      return inl(x, { ...st, ...(t === 'B' || t === 'STRONG' ? { bold: true } : t === 'I' || t === 'EM' ? { italics: true } : t === 'DEL' ? { decoration: 'lineThrough' } : t === 'CODE' ? { background: L.side, fontSize: 9.5 } : href ? { link: href, color: L.sys, decoration: 'underline' } : {}) });
+    });
+    const blocks = el => [...el.children].flatMap(x => {
+      const t = x.tagName, gap = [0, 0, 0, 8];
+      if (/^H[1-6]$/.test(t)) return [{ text: inl(x), style: 'h' + Math.min(4, Math.max(2, +t[1])) }];
+      if (t === 'P') return [{ text: inl(x), margin: gap }];
+      if (t === 'UL' || t === 'OL') return [{ [t.toLowerCase()]: [...x.children].map(li => ({ text: inl(li), ...(li.classList.contains('task') && { listType: 'none' }) })), margin: gap }];
+      if (t === 'BLOCKQUOTE') return [{ text: inl(x), italics: true, color: L.quiet, margin: [14, 0, 0, 8] }];
+      if (t === 'HR') return [{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 495, y2: 0, lineWidth: 0.7, lineColor: L.rule }], margin: [0, 6, 0, 12] }];
+      if (t === 'PRE') return pics.get(x) || (x.textContent.trim() ? [{ table: { widths: ['*'], body: [[{ text: x.textContent, fontSize: 9, lineHeight: 1.25, preserveLeadingSpaces: true, fillColor: L.side, margin: [6, 6, 6, 6] }]] }, layout: 'noBorders', margin: gap }] : []);
+      const tb = t === 'TABLE' ? x : x.classList.contains('tbl') && x.querySelector('table');
+      if (tb) { const rows = [...tb.rows].map(r => [...r.cells].map(c => ({ text: inl(c), fontSize: 9.5, ...(c.tagName === 'TH' && { bold: true, color: L.sys }) }))), cols = Math.max(...rows.map(r => r.length)); for (const r of rows) while (r.length < cols) r.push('');
+        return [{ table: { headerRows: 1, widths: Array(cols).fill('auto'), body: rows }, layout: { hLineWidth: i => i === 1 ? 1.2 : i ? 0.6 : 0, vLineWidth: () => 0, hLineColor: () => L.rule, paddingTop: () => 5, paddingBottom: () => 5 }, margin: gap }]; }
+      if (x.classList.contains('lcard')) { const a = x.querySelector('a'), tt = x.querySelector('.lct'); return a ? [{ text: [{ text: (tt ? tt.textContent : a.href) + '\n', bold: true, color: L.acc }, { text: a.href, fontSize: 9, color: L.sys }], link: a.href, margin: gap }] : []; }
+      return x.children.length ? blocks(x) : x.textContent.trim() ? [{ text: x.textContent, margin: gap }] : [];
+    });
+    const content = [{ text: title, fontSize: 22, bold: true, color: L.acc, lineHeight: 1.15 }, { text: [n.updated ? 'Updated ' + new Date(n.updated).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '', tags.join(', ')].filter(Boolean).join('  ·  '), fontSize: 9, color: L.sys, margin: [0, 4, 0, 16] }, ...blocks(host)];
+    host.remove(); work.remove();
+    const doc = { pageSize: 'A4', pageMargins: [50, 54, 50, 54], info: { title }, content, defaultStyle: { fontSize: 10.5, lineHeight: 1.35, color: L.ink },
+      styles: { h2: { fontSize: 15, bold: true, color: L.acc, margin: [0, 12, 0, 5] }, h3: { fontSize: 13, bold: true, color: L.acc, margin: [0, 10, 0, 4] }, h4: { fontSize: 11.5, bold: true, color: L.acc, margin: [0, 8, 0, 4] } },
+      background: (p, size) => ({ canvas: [{ type: 'rect', x: 0, y: 0, w: size.width, h: size.height, color: L.bg }] }),
+      footer: (p, pages) => ({ text: `${p} / ${pages}`, alignment: 'center', fontSize: 8, color: L.quiet, margin: [0, 20, 0, 0] }) };
+    const blob = await new Promise((res, rej) => { const t = setTimeout(() => rej({ code: 'timeout' }), 60000); try { window.pdfMake.createPdf(doc).getBlob(b => { clearTimeout(t); res(b); }); } catch (e) { clearTimeout(t); rej(e); } });
+    await saveFile(fileName(title) + '.pdf', blob);
+  } catch (e) { document.querySelectorAll('body > .prose[style*="-9999px"]').forEach(x => x.remove()); setSaved('The PDF could not be made' + (e && e.code ? ' (' + e.code + ')' : '') + '. Check your connection and try again, or export as Markdown.', true); }
 }
 
 /* Fact-check one paragraph (the lines before `end`): claims with a verdict each, in a panel. The note changes only if the user inserts the result. */
@@ -2326,7 +2403,7 @@ $('moveundo').addEventListener('click', async () => {
 /* ---------- Menus: notes, tag folders and the GitHub section (right-click, menu key, or long press) ---------- */
 let ctxId = null, ctxFrom = null, ctxCtx = '';
 function ctxItems(el) {
-  if (el.id === 'actbtn') return [...(sample && !readOnly ? [['improve', 'wand', 'Auto-improve'], ['write', 'sparkle', 'Write with Claude'], ['sum', 'doc', 'Summarise'], ['map', 'branch', 'Mind map this note']] : []), ['links', 'graph', 'Map Links'], ...(readOnly ? [] : [['fmt', 'code', 'Format code']]), ['share', 'share', 'Share']];
+  if (el.id === 'actbtn') return [...(sample && !readOnly ? [['improve', 'wand', 'Auto-improve'], ['write', 'sparkle', 'Write with Claude'], ['sum', 'doc', 'Summarise'], ['map', 'branch', 'Mind map this note']] : []), ['links', 'graph', 'Map Links'], ...(readOnly ? [] : [['fmt', 'code', 'Format code']]), ['expmd', 'download', 'Export as Markdown'], ['exppdf', 'doc', 'Export as PDF']];
   if (el.id === 'ghsect') return [['ghsync', 'refresh', 'Sync now'], ['ghpick', 'list', 'Choose repositories…'], ['', '', ghInfo()]];
   if (el.dataset.folder === 'tag:' + TODO) return null;
   if (el.dataset.folder) { const k = el.dataset.folder.slice(4), p = pins.includes(k); return [['fpin', p ? 'pinned' : 'pin', p ? 'Unpin folder' : 'Pin folder'], ['fren', 'edit', 'Rename…'], ['fmove', 'move', 'Move to…'], ...(k.includes('/') ? [] : [['fsplit', 'db', 'Move to a second database…']])]; }
@@ -2516,25 +2593,8 @@ let actPending = new Map(), actT = 0, actBusy = null;
 const actCache = new Map();
 function addTo(rec, add) { for (const [k, v] of Object.entries(add)) { if (Array.isArray(v)) rec[k] = [...new Set([...(Array.isArray(rec[k]) ? rec[k] : []), ...v])].slice(0, 50); else if (typeof v === 'number') rec[k] = (Number(rec[k]) || 0) + v; else if (v && typeof v === 'object') rec[k] = addTo(rec[k] && typeof rec[k] === 'object' ? rec[k] : {}, v); else rec[k] = v; } return rec; }
 function logAct(add) { if (!db || readOnly) return; const k = dayKey(Date.now()); actPending.set(k, addTo(actPending.get(k) || {}, add)); clearTimeout(actT); actT = setTimeout(flushAct, 4000); }
-// Tokens are also counted by local hour and by the model asked for, for the usage ring
-function logTokens(feature, n, model) {
-  if (!(n > 0)) return; const add = { tokens: { [feature]: n }, hours: { [String(new Date().getHours()).padStart(2, '0')]: n }, ...(model && { models: { [model]: n } }) };
-  logAct(add); if (!db || readOnly) return;
-  const day = { [dayKey(Date.now())]: add }; addTo(usage, structuredClone(day)); usePending = addTo(usePending || {}, day); renderRing(); clearTimeout(useT); useT = setTimeout(flushUse, 1500);
-}
-/* The usage ring keeps its own record, meta/usage = {<day>: {tokens, hours, models}} for the last 8 days, which only this page writes. The day's activity record is
-   shared with Claude's skill and tasks, and one of them replacing it used to wipe the ring's figures. The ring shows a call at once; the record follows a moment later,
-   and a failed save is kept, retried and shown in the usage box. */
-let usage = {}, usePending = null, useT = 0, useErr = '';
-async function flushUse() {
-  const add = usePending; usePending = null; if (!add || !db) return;
-  try {
-    const s = await db.doc('meta/usage').get(), rec = addTo(s.exists ? s.data() || {} : {}, add), old = dayKey(Date.now() - 8 * DAY);
-    for (const k of Object.keys(rec)) if (k < old) delete rec[k];
-    await db.doc('meta/usage').set(rec); useErr = '';
-  } catch (e) { usePending = addTo(add, usePending || {}); useErr = errCode(e); clearTimeout(useT); useT = setTimeout(flushUse, 15000); }
-  renderRing(); if (!$('useveil').hidden) renderUse();
-}
+// Estimated tokens by feature, for the Statistics page
+function logTokens(feature, n) { if (n > 0) logAct({ tokens: { [feature]: n } }); }
 async function flushAct() {
   if (actBusy) await actBusy;
   const todo = actPending; actPending = new Map(); if (!todo.size || !db) return;
@@ -2543,30 +2603,10 @@ async function flushAct() {
       try { const s = await db.doc('activity/' + k).get(); const rec = addTo(s.exists ? s.data() || {} : {}, add); await db.doc('activity/' + k).set(rec); actCache.set(k, rec); }
       catch (e) { actPending.set(k, addTo(actPending.get(k) || {}, add)); }
     }
-  })().finally(() => { actBusy = null; renderRing(); });
+  })().finally(() => { actBusy = null; });
   return actBusy;
 }
-/* Usage ring: the page's own estimated tokens over about five hours (this hour and the four before it), against a budget the user sets.
-   The page cannot read the plan's real usage, so this is only what its own features logged.
-   shortcut: hours are logged as totals, so the 5-hour figure has no split by feature or model; log hours.<HH>.<feature> if that split is wanted */
 const FEATS = [['write', 'Write with Claude'], ['summarise', 'Summarise'], ['improve', 'Auto-improve'], ['chat', 'Chat about the note'], ['para', 'Paragraph tools'], ['factcheck', 'Fact-check'], ['mindmap', 'Mind map'], ['diagram', 'Process diagram'], ['websaves', 'Web Saves'], ['format', 'Format code']];
-async function loadAct(n) { for (let i = 0; i < n; i++) { const k = dayKey(Date.now() - i * DAY); try { const s = await db.doc('activity/' + k).get(); if (s.exists) actCache.set(k, s.data() || {}); } catch (e) {} } }
-function use5h(now = Date.now()) { let t = 0; for (let i = 0; i < 5; i++) { const d = new Date(now - i * 36e5), r = usage[dayKey(d)]; t += Number(r && r.hours && r.hours[String(d.getHours()).padStart(2, '0')]) || 0; } return t; }
-const ringSvg = f => `<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke-width="5" class="rtrack"/><circle cx="18" cy="18" r="15" fill="none" stroke-width="5" class="rfill" stroke-dasharray="${(Math.min(1, f) * 94.25).toFixed(1)} 94.25" transform="rotate(-90 18 18)"/></svg>`;
-function renderRing() {
-  const t = use5h(), b = Number(settings.budget) || 100000;
-  $('ringbtn').innerHTML = ringSvg(t / b) + `<span>Notes ≈ ${fmtN(t)} tokens (5 h)</span>`;
-  $('ringbtn').ariaLabel = `Claude usage by this page: about ${fmtN(t)} estimated tokens in the last 5 hours, ${Math.round(t / b * 100)}% of your budget of ${fmtN(b)}. Show the breakdown.`;
-}
-function renderUse() {
-  const sum = n => { const tok = {}, mod = {}; let t = 0; for (let i = 0; i < n; i++) { const r = usage[dayKey(Date.now() - i * DAY)] || {}; for (const [k, x] of Object.entries(r.tokens || {})) { tok[k] = (tok[k] || 0) + (Number(x) || 0); t += Number(x) || 0; } for (const [k, x] of Object.entries(r.models || {})) mod[k] = (mod[k] || 0) + (Number(x) || 0); } return { t, tok, mod }; };
-  const d1 = sum(1), d7 = sum(7), t = use5h(), b = Number(settings.budget) || 100000, row = (h, a, c) => `<tr><th scope="row">${esc(h)}</th><td class="n">≈ ${fmtN(a)}</td><td class="n">≈ ${fmtN(c)}</td></tr>`;
-  $('usebody').innerHTML = (useErr ? `<p class="hint bad" role="alert">The latest figures could not be saved to your notes database (${esc(useErr)}). They are counted here and will be saved when it can be reached.</p>` : '') + `<div class="ringbig">${ringSvg(t / b)}<div><div style="font-size:calc(26px + var(--fd));font-weight:600">≈ ${fmtN(t)}</div><div class="hint">estimated tokens in about the last 5 hours: ${Math.round(t / b * 100)}% of your budget of ${fmtN(b)}</div></div></div>
-    <table class="stable"><thead><tr><td></td><th scope="col" class="n">Today</th><th scope="col" class="n">Last 7 days</th></tr></thead><tbody>${row('All features', d1.t, d7.t)}
-    <tr><th colspan="3" scope="colgroup" class="hint">By feature</th></tr>${FEATS.map(([k, n]) => row(n, d1.tok[k] || 0, d7.tok[k] || 0)).join('')}
-    <tr><th colspan="3" scope="colgroup" class="hint">By model asked for</th></tr>${Object.keys(d7.mod).sort().map(k => row(modelName(k), d1.mod[k] || 0, d7.mod[k] || 0)).join('') || '<tr><td colspan="3" class="hint">Nothing recorded yet.</td></tr>'}</tbody></table>`;
-}
-async function openUse() { $('useveil').hidden = false; $('budget').value = Number(settings.budget) || 100000; renderUse(); if (!db) return; await flushUse(); renderRing(); renderUse(); }
 /* Folder colours: the validated eight-colour categorical palette (light and dark steps), assigned by folder size; further folders and Untagged are grey */
 const CAT = { light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'], dark: ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#0ca30c', '#9085e9', '#e66767'] };
 const GREY = '#8c8c8c';
@@ -2688,8 +2728,6 @@ $('setmodel').addEventListener('change', () => setSetting('model', $('setmodel')
 $('setfact').addEventListener('change', () => setSetting('factModel', $('setfact').value));
 $('smodel').addEventListener('change', () => store.set('sumModel', $('smodel').value));
 $('ssrc').addEventListener('change', sumSrc);
-$('ringbtn').addEventListener('click', openUse);
-$('budget').addEventListener('change', () => { setSetting('budget', Math.max(1000, Math.round(Number($('budget').value)) || 100000)); $('budget').value = settings.budget; renderUse(); });
 $('fstop').addEventListener('click', () => aiCtl && aiCtl.abort());
 $('fcopy').addEventListener('click', async () => { if (fact) $('fmsg').textContent = (await copyText(factText(fact))) ? 'Copied.' : 'Copying is blocked here; select the text instead.'; });
 $('finsert').addEventListener('click', insertFact);
@@ -2698,7 +2736,7 @@ $('mdiscard').addEventListener('click', () => { $('mapveil').hidden = true; });
 // Export to Mermaid: the map's text as a .mmd file where the page may save files, else on the clipboard
 $('mexport').addEventListener('click', async () => {
   const name = ($('title').value.trim() || 'Mind map').replace(/[^\w -]+/g, '').trim().slice(0, 60) || 'Mind map';
-  try { if (!dl) throw 0; await dl.save({ filename: name + '.mmd', data: mapText + '\n' }); $('mmsg').textContent = 'Saved as ' + name + '.mmd'; }
+  try { if (!dl) throw 0; await dl.save({ filename: name + ' (mermaid).md', data: '```mermaid\n' + mapText + '\n```\n' }); $('mmsg').textContent = 'Saved as ' + name + ' (mermaid).md'; }
   catch (e) { if (errCode(e) === 'declined') return; $('mmsg').textContent = (await copyText(mapText)) ? 'Mermaid text copied.' : 'Copying is blocked here; insert the map and copy it from Edit.'; }
 });
 $('minsert').addEventListener('click', mapKeep);
@@ -2858,7 +2896,7 @@ $('ctx').addEventListener('click', e => {
   closeCtx(a === 'pin' || a === 'fpin' || a === 'ghsync');
   if (a === 'pin') togglePin(id); else if (a === 'del') deleteNote(id); else if (a === 'move') openMove('note', id);
   else if (a === 'fpin') togglePinFolder(id); else if (a === 'fren') renameFolder(id); else if (a === 'fmove') openMove('folder', id); else if (a === 'fsplit') splitFolder(id);
-  else if (a === 'improve') runImprove(); else if (a === 'write') openWrite(); else if (a === 'sum') openSum(); else if (a === 'share') shareNote(); else if (a === 'map') runMap(); else if (a === 'links') runLinks(); else if (a === 'fmt') runFormat();
+  else if (a === 'improve') runImprove(); else if (a === 'write') openWrite(); else if (a === 'sum') openSum(); else if (a === 'expmd') exportMd(); else if (a === 'exppdf') exportPdf(); else if (a === 'map') runMap(); else if (a === 'links') runLinks(); else if (a === 'fmt') runFormat();
   else if (a === 'ghsync') ghSync(); else if (a === 'ghpick') openRepoPicker(); else if (a === 'ghopen') { const n = indexOf(id); if (n && n.url) openLink(n.url); }
 });
 $('ctx').addEventListener('keydown', e => { const bs = [...$('ctx').querySelectorAll('button')], i = bs.indexOf(document.activeElement); if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); bs[(i + (e.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length].focus(); } else if (e.key === 'Tab') closeCtx(true); });
@@ -3003,13 +3041,13 @@ $('yes').addEventListener('click', () => closeBox(true));
 $('no').addEventListener('click', () => closeBox(false)); $('alt').addEventListener('click', () => closeBox('alt'));
 $('veil').addEventListener('click', e => { if (e.target === $('veil')) closeBox(false); });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { const open = ['writeveil', 'sumveil', 'impveil', 'factveil', 'mapveil', 'useveil'].find(v => !$(v).hidden); if (!$('ctx').hidden) closeCtx(true); else if (!$('mvveil').hidden) closeMove(); else if (!$('txtveil').hidden) closeText(null); else if (!$('repoveil').hidden) $('repoveil').hidden = true; else if (!$('veil').hidden) closeBox(false); else if (open) { if (aiCtl) aiCtl.abort(); $(open).hidden = true; wsEnd(null); } else if (!$('setveil').hidden) $('setveil').hidden = true; else if (!$('picker').hidden) $('picker').hidden = true; else if (!$('chat').hidden) setChat(false); else if (document.body.classList.contains('focus')) setFocus(false); }
+  if (e.key === 'Escape') { const open = ['writeveil', 'sumveil', 'impveil', 'factveil', 'mapveil'].find(v => !$(v).hidden); if (!$('ctx').hidden) closeCtx(true); else if (!$('mvveil').hidden) closeMove(); else if (!$('txtveil').hidden) closeText(null); else if (!$('repoveil').hidden) $('repoveil').hidden = true; else if (!$('veil').hidden) closeBox(false); else if (open) { if (aiCtl) aiCtl.abort(); $(open).hidden = true; wsEnd(null); } else if (!$('setveil').hidden) $('setveil').hidden = true; else if (!$('picker').hidden) $('picker').hidden = true; else if (!$('chat').hidden) setChat(false); else if (document.body.classList.contains('focus')) setFocus(false); }
   else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f' && mode === 'edit') { e.preventDefault(); setFocus(!document.body.classList.contains('focus')); }
   else if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); goHistory(e.key === 'ArrowLeft' ? -1 : 1); }
   else if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); if ($('shell').classList.contains('collapsed')) setCollapsed(false); setPane('tags'); $('q').focus(); }
 });
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { if (dirty) save(); flushAct(); flushUse(); } });
-window.addEventListener('pagehide', () => { if (dirty) save(); flushAct(); flushUse(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { if (dirty) save(); flushAct(); } });
+window.addEventListener('pagehide', () => { if (dirty) save(); flushAct(); });
 window.addEventListener('hashchange', () => { const m = location.hash.match(/^#n-([\w-]+)$/); if (m && (!current || current.id !== m[1]) && indexOf(m[1])) openNote(m[1]); });
 
 /* Start */
@@ -3023,7 +3061,6 @@ applySettings(); setCollapsed(store.get('collapsed', false) && !isMobile()); set
   if (user && !(await user.isOwner())) { readOnly = true; for (const id of ['newtop', 'newin', 'quickbox', 'blanktodo', 'blankkanban']) $(id).hidden = true; }
   dl = await host.use('downloads'); $('exportsec').hidden = !dl;
   host.use('sample').then(s => aiAvailable(s)).catch(() => aiAvailable(null));
-  loadAct(2).then(renderRing);
   /* Notes: a database query returns at most 1,000 records (MAX), so the newest 1,000 stay live and older notes are read in
      further batches of 1,000 (see pagedGet), then merged in. When the live window is full, the older set is re-read a few
      seconds after each change, so a note pushed out of the live window by a newer one is never lost from view. */
@@ -3062,7 +3099,6 @@ applySettings(); setCollapsed(store.get('collapsed', false) && !isMobile()); set
   db.doc('meta/ghapplied').onSnapshot(s => { ghApplied = s.exists ? (s.data() || {}).stamp || null : null; ghApply(); }, () => { ghApplied = null; });
   db.doc('meta/githubprefs').onSnapshot(s => { ghPrefs = s.exists ? s.data() || {} : {}; }, () => {});
   db.doc('meta/ideas').onSnapshot(s => { ideas = s.exists ? s.data() : null; renderIdeas(); }, () => {});
-  db.doc('meta/usage').onSnapshot(s => { usage = s.exists ? s.data() || {} : {}; if (usePending) addTo(usage, structuredClone(usePending)); renderRing(); if (!$('useveil').hidden) renderUse(); }, () => {});
   db.doc('meta/backup').onSnapshot(s => { backup = s.exists ? s.data() : null; renderFoot(); }, () => {});
   db.doc('meta/settings').onSnapshot(s => { if (s.exists) { const v = s.data(); settings = { ...settings, theme: v.theme || settings.theme, font: v.font || settings.font, day: v.day || v.palette || settings.day, night: v.night || v.palette || settings.night, size: v.size || settings.size, model: v.model || settings.model, factModel: v.factModel || settings.factModel, budget: v.budget || settings.budget }; store.set('settings', settings); applySettings(); } }, () => {});
 })();

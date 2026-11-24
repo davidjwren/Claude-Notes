@@ -69,7 +69,7 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 
 | Record | Holds |
 |---|---|
-| `meta/settings` | Theme, day and night colour schemes, font, text size, plus `model` and `factModel` (`haiku`, `sonnet`, `opus` or `fable`) and `budget` (estimated tokens per 5 hours for the usage ring) |
+| `meta/settings` | Theme, day and night colour schemes, font, text size, plus `model` and `factModel` (`haiku`, `sonnet`, `opus` or `fable`) |
 | `meta/folders` | `{pinned: [folder keys]}`, pinned folders, lower case |
 | `meta/backup` | Last nightly backup, if a backup task is set up: time, file id, note count |
 | `meta/github`, `meta/githubprefs`, `meta/ghapplied` | GitHub sync (see github-sync.md); `meta/githubprefs` holds `owner` and `exclude` |
@@ -77,7 +77,6 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 | `meta/prefs` | Claude's preferences for this user, such as `workEmail` for handing tasks to a work inbox. Claude writes this one |
 | `meta/ideas` | `{generated, items: [{id, title, blurb, noteIds, noteId}], dismissed: [ids]}`: the ideas on the start page. The Ideas task writes `generated` and `items`; the page adds to `dismissed` |
 | `meta/websaves` | A request to tidy Web Saves overnight, written by the page: `{requested, actions, count}`; the task replaces it with `{lastRun, processed}` (web-saves.md) |
-| `meta/usage` | The usage ring's figures, written only by the page: `{<YYYY-MM-DD>: {tokens, hours, models}}` for the last 8 days. Never write it |
 | `meta/split` | A request to move a top-level folder to a second database (written by the page) |
 | `trash/<id>` | Recently deleted notes |
 

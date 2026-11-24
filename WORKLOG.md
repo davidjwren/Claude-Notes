@@ -1,5 +1,12 @@
 # Worklog
 
+## 2026-11-24 (export replaces Share; usage ring removed)
+
+- Live page is version 82. Share is gone from the Actions menu. In its place: Export as Markdown (`exportMd`) and Export as PDF (`exportPdf`), both saved through the downloads capability. The PDF is laid out by pdfmake 0.2.10 (jsdelivr, loaded on first use) from the reader's HTML, with colours read in light mode and the day scheme (`inDay`); mermaid diagrams and mind maps go in as pictures (`svgBlock`). Known limits: one font (Roboto), so no monospace and no characters outside Latin, Greek and Cyrillic; mind map icons are left out of the picture.
+- Export to Mermaid in the mind map dialog saved `.mmd`, which the frame does not allow; it now saves a `.md` holding the mermaid block.
+- The usage ring is removed at the user's request (it never showed figures for them, and was only an estimate): the sidebar button, its dialog, the budget setting, `meta/usage`, and the hour and model counts. Tokens by feature are still logged for the Statistics page.
+- Tests: `pe.js` (Markdown and PDF, exported from dark mode); `pu.js` is retired.
+
 ## 2026-11-24 (usage ring fixed)
 
 Live page is version 81. The ring read zero because its figures lived in the day's activity record, which Claude's skill also writes; on 24 Nov that record had been replaced (58 versions, two `edited` entries, no tokens). The ring now has its own record, `meta/usage` (8 days, page only), shows a call at once, and reports a failed save in the usage box. schema.md and SKILL.md now say to add to a day record with `update`, never `set` over it. Test: `pu.js`.
