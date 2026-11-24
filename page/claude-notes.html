@@ -403,6 +403,16 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
 :is(.graphview,.statsview) .seg button.on{background:var(--sel);color:var(--ink)}
 /* Diagrams in the reader, and the before and after of Format code */
 .mmdout{margin:.9em 0;overflow-x:auto}.mmdout svg{max-width:100%;height:auto}.mmderr{white-space:pre-wrap}
+/* Mind maps are two colours taken from the page's own tokens, so every colour scheme and dark mode follow without a redraw:
+   the accent for the root, the branches and the outlines; the ink for the words (the root's words take the page colour, to read on the accent) */
+.mmdout svg[aria-roledescription=mindmap] .edge{stroke:var(--acc)!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node .node-bkg{fill:var(--bg)!important;stroke:var(--acc)!important;stroke-width:1.5px}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node .node-no-border{stroke:none!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node line{stroke:var(--acc)!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node rect.background{fill:none!important}
+.mmdout svg[aria-roledescription=mindmap] .mindmap-node text{fill:var(--ink)!important}
+.mmdout svg[aria-roledescription=mindmap] .section-root .node-bkg{fill:var(--acc)!important}
+.mmdout svg[aria-roledescription=mindmap] .section-root text{fill:var(--bg)!important}
 .fmt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}.fmt pre{margin:0;padding:8px;max-height:220px;overflow:auto;border:1px solid var(--rule);border-radius:6px;background:var(--side);font-size:calc(12.5px + var(--fd))}
 @media(max-width:599px){.fmt{grid-template-columns:1fr}}
 .pagebar{gap:4px}.kbact{gap:4px}.crumbs{gap:4px}
