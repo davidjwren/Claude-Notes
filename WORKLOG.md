@@ -1,5 +1,13 @@
 # Worklog
 
+## 2026-11-24 (code colours)
+
+Live page published as version 70.
+
+- A fenced code block that names its language is syntax-coloured in the reader (`drawCode`): highlight.js 11.9.0 from jsdelivr, loaded on first use; `md()` now puts the language on the block as `data-lang`. Colours are the `.hljs-*` rules, taken from the page tokens. No linting; the text is unchanged; offline or unknown language leaves the block plain.
+- Not coloured: the before and after panes in the Format code review, and code in Edit and View mode.
+- Test: `pc.js` (light, dark, library blocked).
+
 ## 2026-11-24 (last): bookmarklet removed
 
 The Web Saves bookmarklet was clunky in use, so it is gone: `docs/bookmarklet.md` deleted, and its mentions taken out of the README, the skill (SKILL.md, web-saves.md) and the Help note "Web Saves in Claude Notes" (starter and live). Captures now come only from "save to Web Saves" in a chat. The page never held bookmarklet code, so it stays at version 69.

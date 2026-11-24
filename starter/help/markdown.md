@@ -30,7 +30,7 @@ Nested lists show as one flat list. Tick a task box in the reader to mark it don
 > quoted text
 ---
 ```
-Three backticks on their own line open and close a code block. A word after the opening backticks names the language (`json`, `yaml`, `xml`, `python`), which **Format code** in the Actions menu uses.
+Three backticks on their own line open and close a code block. A word after the opening backticks names the language (`json`, `yaml`, `xml`, `python`), which **Format code** in the Actions menu uses. The reader also colours a block that names its language (keywords, strings, comments), in your colour scheme.
 
 ## Diagrams
 Put the word `mermaid` straight after the opening backticks and the block shows as a diagram in the reader, drawn by the Mermaid library (flowcharts, mind maps, timelines, sequence diagrams and more). The one below is live: press Edit to see its text.
