@@ -263,8 +263,8 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
 .csbtn:hover{border-color:var(--quiet)}
 .csbtn>svg{flex:none;width:16px;height:16px;color:var(--quiet);transform:rotate(90deg)}
 .csname{flex:1;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.25;font-size:calc(14px + var(--fd))}
-.csbtn .chip,.cslist .chip{flex:none;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 5px;border-radius:5px;border:1px solid rgba(128,128,128,.4)}
-.csbtn .chip i,.cslist .chip i{width:9px;height:9px;border-radius:50%}
+.csbtn .chip,.cslist .chip{flex:none;display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 7px;border-radius:8px;border:1px solid rgba(128,128,128,.4)}
+.csbtn .chip i,.cslist .chip i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(128,128,128,.4)}
 .cslist{position:fixed;z-index:20;margin:0;padding:4px;list-style:none;background:var(--bg);border:1px solid var(--rule);border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.22);max-height:min(360px,70dvh);overflow:auto}
 .cslist li{display:flex;align-items:center;gap:8px;min-height:40px;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:calc(14px + var(--fd))}
 .cslist li.act{background:var(--panel)}
@@ -389,6 +389,8 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
 @media(prefers-reduced-motion:reduce){body.focus .pagebar,body.focus .emenu,body.focus .live .ln{transition:none}}
 /* Form-control borders at 3:1 or better; last so it wins over the rules above */
 .searchbox input,.nsort select,.filepick select,.gbar select,.palsel,.csbtn,.aiin,.picker input,.chatrow textarea{border-color:var(--edge)}
+/* Own drop-down arrow, so it keeps a gap from the right edge in every browser */
+select{appearance:none;-webkit-appearance:none;padding-right:26px!important;background-image:linear-gradient(45deg,transparent 50%,var(--quiet) 50%),linear-gradient(135deg,var(--quiet) 50%,transparent 50%)!important;background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%!important;background-size:5px 5px!important;background-repeat:no-repeat!important}
 /* Buttons: a primary action is filled with the accent; every other button is filled with a tint of the secondary colour and outlined in it, so none sits bare on the page */
 :root{--b2:color-mix(in srgb,var(--sys) 14%,var(--bg));--b2h:color-mix(in srgb,var(--sys) 28%,var(--bg));--b2e:color-mix(in srgb,var(--sys) 65%,var(--bg))}
 .btn{background:var(--acc);border-color:var(--acc);color:var(--bg)}
@@ -422,7 +424,7 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
 .hljs-number,.hljs-bullet{color:color-mix(in srgb,var(--sys) 55%,var(--acc))}.hljs-title,.hljs-section{color:var(--acc);font-weight:600}
 .csbtn,.csbtn:hover{background:var(--bg);border:1px solid var(--edge)}/* the colour scheme pickers look like the Font and Text size boxes beside them */
 .setbox{width:min(720px,100%)}.setcols{display:flex;gap:20px;margin-top:12px}.settabs{flex:none;display:flex;flex-direction:column;gap:4px;width:204px}
-.settabs{padding:8px;border:1px solid var(--rule);border-radius:10px;background:var(--side)}.settabs .rowbtn{background:transparent;border-color:transparent}.settabs .rowbtn:hover{background:var(--panel)}.settabs .rowbtn.on{background:var(--sel)}/* Text buttons for actions are 3pt smaller than body text everywhere but the sidebar and the Graph and Statistics bars */.btn,.msgacts .btn{font-size:calc(11px + var(--fd))}.tagsbar .btn{font-size:calc(15px + var(--fd))}.setpanes{flex:1;min-width:0;min-height:340px}.setpanes h3:first-child{margin-top:0}
+.settabs{padding:8px;border:1px solid var(--rule);border-radius:10px;background:var(--side)}.settabs .rowbtn{background:transparent;border-color:transparent}.settabs .rowbtn:hover{background:var(--panel)}.settabs .rowbtn.on{background:var(--sel)}/* Text buttons for actions are 3pt smaller than body text everywhere but the sidebar and the Graph and Statistics bars */.btn,.msgacts .btn{font-size:calc(11px + var(--fd))}.tagsbar .btn{font-size:calc(15px + var(--fd))}.setpanes{flex:1;min-width:0;min-height:340px}.setpanes h3:first-child{margin-top:0}.setpanes h3{color:var(--acc)}
 @media(max-width:599px){.setcols{flex-direction:column;gap:14px}.settabs{flex-direction:row;flex-wrap:wrap;width:auto}.settabs .rowbtn{flex:1 1 40%;width:auto}.setpanes{min-height:0}}
 #mapveil .row.end .btn{white-space:nowrap}
 .mmsvg .mmi{font-family:"Material Symbols Outlined";font-size:20px;font-weight:400;dominant-baseline:central;visibility:hidden;font-feature-settings:"liga";-webkit-font-feature-settings:"liga";font-variant-ligatures:normal;text-rendering:optimizeLegibility;letter-spacing:0}.icons .mmi{visibility:visible}.icons .ic>text:not(.mmi){transform:translateY(10px)}
@@ -1700,7 +1702,7 @@ function mapShow(text, map, msg, svg) { mapText = text; $('mout').className = 'm
    shortcut: brackets and quotes are dropped from a title to keep the mermaid text valid, so such a note shows in the map but does not open from it */
 const mmLabel = t => (t || 'Untitled').replace(/[()[\]{}"`|]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80);
 function runLinks() {
-  if (!current) return; savedSel = curSel(); mapOpen('Mind map the links');
+  if (!current) return; savedSel = curSel(); mapOpen('Map Links');
   const near = id => { const n = indexOf(id); return [...new Set([...((n && n.links) || []), ...notes.filter(x => (x.links || []).includes(id)).map(x => x.id)])].filter(x => x !== id && indexOf(x)); };
   const first = near(current.id), seen = new Set([current.id, ...first]), L = ['mindmap', `  root((${mmLabel($('title').value)}))`], used = [];
   if (!first.length) { $('mmsg').textContent = 'This note has no links to or from other notes yet. Save it first if you have just added one.'; return; }
@@ -2322,7 +2324,7 @@ $('moveundo').addEventListener('click', async () => {
 /* ---------- Menus: notes, tag folders and the GitHub section (right-click, menu key, or long press) ---------- */
 let ctxId = null, ctxFrom = null, ctxCtx = '';
 function ctxItems(el) {
-  if (el.id === 'actbtn') return [...(sample && !readOnly ? [['improve', 'wand', 'Auto-improve'], ['write', 'sparkle', 'Write with Claude'], ['sum', 'doc', 'Summarise'], ['map', 'branch', 'Mind map this note']] : []), ['links', 'graph', 'Mind map the links'], ...(readOnly ? [] : [['fmt', 'code', 'Format code']]), ['share', 'share', 'Share']];
+  if (el.id === 'actbtn') return [...(sample && !readOnly ? [['improve', 'wand', 'Auto-improve'], ['write', 'sparkle', 'Write with Claude'], ['sum', 'doc', 'Summarise'], ['map', 'branch', 'Mind map this note']] : []), ['links', 'graph', 'Map Links'], ...(readOnly ? [] : [['fmt', 'code', 'Format code']]), ['share', 'share', 'Share']];
   if (el.id === 'ghsect') return [['ghsync', 'refresh', 'Sync now'], ['ghpick', 'list', 'Choose repositories…'], ['', '', ghInfo()]];
   if (el.dataset.folder === 'tag:' + TODO) return null;
   if (el.dataset.folder) { const k = el.dataset.folder.slice(4), p = pins.includes(k); return [['fpin', p ? 'pinned' : 'pin', p ? 'Unpin folder' : 'Pin folder'], ['fren', 'edit', 'Rename…'], ['fmove', 'move', 'Move to…'], ...(k.includes('/') ? [] : [['fsplit', 'db', 'Move to a second database…']])]; }

@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (live edits from another session)
+
+Live page is version 77. While the colour scheme change was going out, another session published to the live page several times. Those edits were kept on the live page and copied into the repo: the brand reads "Notes" on the live page only (repo still "Claude Notes"); selects draw their own drop-down arrow; "Mind map the links" is now "Map Links"; larger colour chips in the scheme pickers; Settings headings in the accent colour. Make page changes from one conversation at a time, or each publish has to be merged by hand.
+
 ## 2026-11-24 (colour scheme boxes)
 
 The Day and Night colour scheme pickers in Settings are no longer tinted: they take the page background and the same border as the Font and Text size boxes (asked for in a comment). One CSS rule, `.csbtn`.
