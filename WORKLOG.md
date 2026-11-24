@@ -23,6 +23,8 @@ Live page published as version 59.
 
 - Follow-up (version 65): mind map labels are centred and move down only once an icon is really showing; Export to Mermaid in the mind map dialog (a .mmd file, else the clipboard); fixed a race where two maps on one page left the first without icons. Open: icons did not show in the Claude iPhone app (seen in the user's screenshot of version 63); not yet known whether that is the app blocking the font or a WebKit difference. Not tested in WebKit here.
 
+- Follow-up (version 66): mind maps have three circle levels (centre, main branches, up to three details each); a detail's own points show as a list of up to six beside its circle, always left or right, with an accent bar. Key-point boxes capped at three, set smaller, with more space above. Icons confirmed working on Mac and still missing in the Claude iPhone app; added ligature hints for Safari's engine to `.mmi`, untested (no WebKit on this PC).
+
 Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
 
 Not done: Phases 3 to 5.

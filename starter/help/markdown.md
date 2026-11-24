@@ -42,7 +42,7 @@ flowchart LR
 
 Edit and View mode show the text. If the diagram has a mistake, the reader shows the text with the error under it.
 
-**Mind maps.** A `mermaid` block whose first line is `mindmap` is drawn by the notes page itself, as rings of circles. Indent by two spaces to put a node under another. A line `::icon(name)` straight under a node gives it an icon, shown on the centre and the main branches; the name is a Google Material Symbols name such as `gavel`, `payments` or `calendar_month` (a name that is not an icon is left out). A line `%% box: Title | text` adds a box of key points beside the map. This one is live:
+**Mind maps.** A `mermaid` block whose first line is `mindmap` is drawn by the notes page itself, as rings of circles. Indent by two spaces to put a node under another: the centre, then the main branches, then their details on the outer ring. Anything under a detail shows as a short bulleted list beside its circle, six lines at most. A line `::icon(name)` straight under a node gives it an icon, shown on the centre and the main branches; the name is a Google Material Symbols name such as `gavel`, `payments` or `calendar_month` (a name that is not an icon is left out). A line `%% box: Title | text` adds a box of key points beside the map; the first three are shown. This one is live:
 
 ```mermaid
 mindmap
@@ -51,6 +51,9 @@ mindmap
     Write
     ::icon(edit)
       Markdown
+        Headings
+        Lists and tasks
+        Tables
       Quick note
       To-do lists
     Find
