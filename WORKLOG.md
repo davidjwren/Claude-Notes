@@ -21,6 +21,8 @@ Live page published as version 59.
 
 - Follow-up (version 64): the two sidebar rows, Graph view and Statistics, are plain again too (that is what was meant by excluding them); the controls on those two pages stay plain as well.
 
+- Follow-up (version 65): mind map labels are centred and move down only once an icon is really showing; Export to Mermaid in the mind map dialog (a .mmd file, else the clipboard); fixed a race where two maps on one page left the first without icons. Open: icons did not show in the Claude iPhone app (seen in the user's screenshot of version 63); not yet known whether that is the app blocking the font or a WebKit difference. Not tested in WebKit here.
+
 Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
 
 Not done: Phases 3 to 5.
