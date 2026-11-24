@@ -2279,6 +2279,7 @@ function renderStats() {
     <div class="sblock"><h3>Notes edited by top-level folder</h3><p class="hint">Per week, last 12 weeks. Each note counts once a day, in its first tag’s top-level folder.</p>
       ${top ? `<div class="chartwrap">${top}</div>` : `<p class="empty" style="padding:8px 0">No edits logged yet. They are counted from ${sinceTxt}.</p>`}</div>`;
   $('sinfo').textContent = `${notes.length} notes`;
+  const cal = $('sbody').querySelector('.cal'); cal.scrollLeft = cal.scrollWidth; // on a narrow screen the heatmap scrolls sideways: open it at the newest weeks, where the activity is
 }
 
 /* Events */

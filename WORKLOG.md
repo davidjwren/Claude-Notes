@@ -10,6 +10,8 @@ Live page published as version 59.
 - Mind map this note (Actions): one Claude call, checked by `mermaid.parse`, preview, then Insert or Discard.
 - Format code (Actions): JSON by `JSON.parse`, YAML by the `yaml` package (`import()` of its jsdelivr `+esm` build), Python by Claude with a white-space-only check. It reuses the Auto-improve dialog.
 
+- Follow-up (version 60): on a phone the heatmap scrolls sideways and opened at the oldest months, so recent activity was off screen; that was what looked blank. It now opens at the newest weeks.
+
 Tested the same way as before, now 38 checks. Not checked in the real Claude frame: that the two jsdelivr loads pass the frame's content rules (the `+esm` import is the one to watch), and whether the frame draws `mermaid` blocks itself as well.
 
 Not done: Phases 3 to 5.
