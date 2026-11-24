@@ -13,7 +13,7 @@ The page keeps the newest 1,000 notes (ordered by `updated`) live and reads olde
 | `keywords` | list of strings | Lower case, no duplicates |
 | `links` | list of strings | Ids of the notes this note links to with `[[…]]` (see Links) |
 | `summary` | string | Two lines; may be empty |
-| `source` | string | Where the note came from: `manual`, `chat`, `research`, `code`, `starter`, `github`, or an import source |
+| `source` | string | Where the note came from: `manual`, `chat`, `research`, `code`, `web` (a Web Saves capture), `mindmap`, `ideas`, `starter`, `github`, or an import source |
 | `created` | ISO date-time (UTC, `Z`) | Set once |
 | `updated` | ISO date-time | Every change to the body or index fields (not pins or moves) |
 | `summarised` | ISO date-time or null | When `summary` and `keywords` were last written by Claude |
@@ -63,7 +63,7 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 
 ## Activity (Statistics view)
 
-`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {<feature>: n}, hours: {<HH>: n}, models: {<model id>: n}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record, add `edited.<id>`, and `set` it back with its version (or create it). Leave `tokens`, `hours` and `models` alone: they count the page's own Claude features (by feature, by local hour 00 to 23, and by the model asked for).
+`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {<feature>: n}, hours: {<HH>: n}, models: {<model id>: n}, searches: [<term>], opened: {<noteId>: n}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record, add `edited.<id>`, and `set` it back with its version (or create it). Leave the rest alone: `tokens`, `hours` and `models` count the page's own Claude features (by feature, by local hour 00 to 23, and by the model asked for); `searches` holds the day's search terms on the page (lower case, 50 at most) and `opened` how often each note was opened, for the Ideas task to read.
 
 ## Other records (read only for Claude unless a reference file says otherwise)
 
@@ -75,6 +75,8 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 | `meta/github`, `meta/githubprefs`, `meta/ghapplied` | GitHub sync (see github-sync.md); `meta/githubprefs` holds `owner` and `exclude` |
 | `meta/capture` | Capture setting: `{research, code, chats, updated}`, each `off`, `offer` or `auto`. Claude writes this one |
 | `meta/prefs` | Claude's preferences for this user, such as `workEmail` for handing tasks to a work inbox. Claude writes this one |
+| `meta/ideas` | `{generated, items: [{id, title, blurb, noteIds, noteId}], dismissed: [ids]}`: the ideas on the start page. The Ideas task writes `generated` and `items`; the page adds to `dismissed` |
+| `meta/websaves` | A request to tidy Web Saves overnight, written by the page: `{requested, actions, count}`; the task replaces it with `{lastRun, processed}` (web-saves.md) |
 | `meta/split` | A request to move a top-level folder to a second database (written by the page) |
 | `trash/<id>` | Recently deleted notes |
 

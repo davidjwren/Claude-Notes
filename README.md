@@ -48,7 +48,10 @@ Claude Notes addresses two problems:
 - **Chat** about the open note: summarise, rewrite, find gaps, draft from it; insert the answer or save it as a new note.
 - **Auto-improve**: suggests keywords, links to your other notes and the sources a note names; you choose what to apply.
 - **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
-- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Format code** (JSON, YAML and Python blocks, reviewed before and after) and **Share**.
+- **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML and Python blocks, reviewed before and after) and **Share**.
+- **Mind maps across notes**: of a note's links (drawn without Claude), or of a whole folder or search, grouped by Claude from titles, tags, keywords and summaries only, and saved as a note whose names open the notes.
+- **Web Saves**: capture pages from any browser with a [bookmarklet](docs/bookmarklet.md) or "save to Web Saves" in a chat; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.
+- **Ideas** on the start page, written by an optional nightly task from your recent notes, searches and opened notes.
 - **Mermaid diagrams**: a code block marked `mermaid` shows as a diagram in the reader.
 - **Model choice** in Settings (Haiku, Sonnet, Opus or Fable; Sonnet by default, Opus for fact-checks) and a **usage ring** estimating the tokens the page used in the last 5 hours against your own budget.
 - **To-do lists you can tick** in the reader: a ticked task is dated and moves to Done, in the same format the `/notes` skill writes.
@@ -143,6 +146,7 @@ Type `/notes` and a request in any Claude chat, or ask in plain words.
 | "done …", "show my to-do list" | Ticks a task off, or lists open tasks |
 | "send … to my work email" | Emails the task (asks for the address once) and ticks it as sent |
 | "capture research auto" | Sets when Claude saves notes for you: research, code and long chats, each off, offer or auto |
+| "save to Web Saves: <link or text>" | Saves a web page as a note in the Web Saves folder; "tidy Web Saves" combines and files them |
 | "cards …" | Fills in real titles and descriptions for a note's link cards |
 | "sync GitHub" | Keeps one note per GitHub repository (README, branches, pull requests, file structure), with your own "My notes" section kept at every sync |
 | "change the notes page so that …" | Edits the page itself (see below) |
@@ -159,6 +163,9 @@ Scheduled tasks run in Claude on a timetable while you are away. Ask Claude to s
 | Backup | Nightly | Saves every note as one dated JSON file to your cloud storage (for example Google Drive); the sidebar shows the last backup |
 | GitHub sync | Nightly | Refreshes one note per GitHub repository |
 | Reminder digest | Morning and evening | Sends a phone notification with your open to-do tasks |
+| Research queue | Nightly | Researches up to five open tasks from the Research to-do list on the web and writes a sourced note for each |
+| Ideas | Nightly | Finds themes and connections in recent notes, searches and opened notes; up to five ideas show on the start page |
+| Web Saves | Nightly | Tidies the Web Saves folder when you chose "Schedule for overnight" on the page |
 
 Without them, everything still works: Settings → Download all saves a copy, and summaries and GitHub sync can be asked for at any time.
 
@@ -209,6 +216,7 @@ claude-notes/
 │   └── help/                      the same notes as markdown, for reading on GitHub
 └── docs/
     ├── scheduled-tasks.md         prompts for the optional scheduled tasks
+    ├── bookmarklet.md             the Web Saves bookmarklet and how to install it
     └── screenshots/
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: notes
-description: Read and write Claude Notes, the user's notes app held in one Claude artifact's database. Use whenever the user says /notes, or asks to save something as a note, find, open, edit, append to, pin or delete a note, add a task to their to-do list or to a named "[X] to-do list" (also "remind: …" and messages starting "to-do"), tick a task off or send it to their work email, or change their note-capture setting. Also use for "sync GitHub" (refresh the repository notes), filling in link-card titles and changing the notes page itself. When the capture setting is on, also use at the end of research, a code-project session or a long chat to offer or save a note.
+description: Read and write Claude Notes, the user's notes app held in one Claude artifact's database. Use whenever the user says /notes, or asks to save something as a note, find, open, edit, append to, pin or delete a note, add a task to their to-do list or to a named "[X] to-do list" (also "remind: …" and messages starting "to-do"), tick a task off or send it to their work email, or change their note-capture setting. Also use for "save to Web Saves" (a web page or a message starting "Save to Claude Notes, folder Web Saves"), "tidy Web Saves", "sync GitHub" (refresh the repository notes), filling in link-card titles and changing the notes page itself. When the capture setting is on, also use at the end of research, a code-project session or a long chat to offer or save a note.
 ---
 
 # Claude Notes
@@ -51,6 +51,8 @@ The user may type these with or without `/notes`, in any wording. Take the obvio
 | show my to-do list / [Name] to-do list / my to-do lists | Show open tasks, or the lists with their open-task counts |
 | capture <research / code / chats / all> <off / offer / auto> | Change the capture setting (Capture) |
 | capture status | Show the current setting |
+| save to Web Saves: <link or text>, or a message starting "Save to Claude Notes, folder Web Saves" | Save one note in Web Saves (`references/web-saves.md`) |
+| tidy / combine / file my Web Saves | The three procedures in `references/web-saves.md`; show the plan and ask once before applying |
 | cards <note> | Fill in link-card titles and descriptions (Link cards) |
 | sync github | `references/github-sync.md` |
 | change the notes page | Read `references/editing-the-page.md` |
@@ -97,6 +99,7 @@ Each to-do list is an ordinary note in the `To-do` folder, so it shows on the pa
 - Showing a list: open tasks only, as a plain list, plus the count done in the last 7 days if any.
 - **Work email**: read `meta/prefs.workEmail`; if it is missing, ask the user for the address once and save it there. Email the task with the user's email connector (subject: the task name; body: the task line, its list and any due date). Only after the email is sent, tick the task with ` · sent to work email <date>` instead of ` · done <date>`. If no email tool is available or the email fails, leave the task open and say so.
 - Optional scheduled tasks (see the project README) can send reminder digests from these lists.
+- **Research queue**: the named list `todo-research` ("Research to-do") is the queue for the optional Research task; each open task is a topic. Add to it like any named list.
 
 ## Capture
 

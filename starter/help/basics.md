@@ -32,17 +32,21 @@ Everything you can do on the notes page, in one place. For how the page looks on
 - **Search** (or press `/`): every word must match. It looks at titles, tags, keywords and summaries straight away, then at note text.
 - **Sort and filter**: the notes list sorts by date modified, date created or title, and filters by tagged, untagged or top-level folder.
 - **Most recent**: the 10 latest edited notes, in the sidebar.
+- **Ideas**: with the optional Ideas task set up, the start page lists up to five ideas Claude found across your recent notes, under Pinned. Click one to open its note; Dismiss takes it off the list (the note stays).
+- **What is recorded**: so that Ideas has something to work from, the page keeps your search terms (up to 50 a day, in lower case) and a count of the notes you open, in the notes database beside the activity it already logs for Statistics. The page sends them nowhere.
 - **Back and forward**: ‹ and › in the note bar, or Alt + ← and Alt + →, step through the notes you have opened.
 - **Direct link**: each note has its own address ending `#n-<id>`.
 
 ## Links between notes
 - Type `[[Note title]]`, or use **Link a note** in the editor's Tools menu. The reader shows "Linked from" under any note that others link to.
 - **Graph view** shows notes as dots and links as lines, coloured by top-level folder. With **Folders** on, each folder is a ring joined to its notes, so unlinked notes sit with their folder. Click a note to open it, or a folder to open its list.
+- **Mind map the links** (Actions menu): draws the open note in the centre, the notes it links to or is linked from around it, and their own links on the outer ring, without using Claude. **Ask Claude to group the branches** sorts the same notes into themes.
+- **Mind map these notes**: the branch button at the top of a notes list draws a mind map of that folder (with its sub-folders) or of the current search. It shows how many notes are involved and an estimate before Claude is asked, and sends each note's title, tags, keywords and summary, never its text. Save it as a new note in `Mind maps`, or Discard. In a saved map, a note's name opens that note.
 
 ## Claude on the page
 - **Summary box**: a two-line summary at the top of most notes, written by Claude and refreshed nightly after edits.
 - **Chat** (speech bubble): ask about the open note; insert the answer, replace the note text, or save it as a new note.
-- **Actions menu**: the Actions button in the note bar (three dots on a phone) holds Auto-improve, Write with Claude, Summarise, Mind map this note, Format code and Share. It works in the reader and in Edit; in the reader, new text goes at the end of the note.
+- **Actions menu**: the Actions button in the note bar (three dots on a phone) holds Auto-improve, Write with Claude, Summarise, Mind map this note, Mind map the links, Format code and Share. It works in the reader and in Edit; in the reader, new text goes at the end of the note.
 - **Auto-improve**: suggests keywords, links to other notes and sources the note names. You tick what to apply; Undo reverses it.
 - **Summarise**: choose **This note** (the summary goes at the top under `## Summary`, with Undo) or **A document** (text, markdown, HTML, CSV, Word or PDF), a length and a model.
 - **Mind map this note**: Claude draws the note as a mind map: the subject in the centre, the main branches around it with an icon each, up to three details on the outer ring for each branch, short bulleted points beside a detail where they add something, and two or three boxes of key points beside the map (under it on a narrow screen). It uses two colours, your accent and the text colour. You see a preview first; Insert adds it to the note as a `mermaid` block, Discard drops it. See [[Markdown cheatsheet]] to write or change one by hand.
@@ -59,6 +63,7 @@ Everything you can do on the notes page, in one place. For how the page looks on
 - **Settings**: Light, Dark or System; day and night colour schemes; font; text size; the Claude models; Import. Settings apply on every device.
 - **Passwords links**: `[[passwords:Item name]]` shows a key chip that copies the item name to search in Apple Passwords. No secret is stored.
 - **Link cards**: a link on a line of its own (a web address, or `[text](address)`) shows as a card with the site's icon, a title and the site name, automatically. A link inside a sentence stays an ordinary link. The page can't read other websites, so the title comes from the link text or the address; ask Claude (`/notes cards <note>`) for real titles and descriptions.
+- **Web Saves**: pages you capture from the web land in the `Web Saves` folder, where four buttons tidy them into proper notes with Claude. See [[Web Saves in Claude Notes]].
 - **Backups**: the sidebar footer shows the last nightly backup (if you set up the optional backup task); Settings → Download all (JSON) saves a copy now.
 - **From any Claude chat**: the `/notes` skill saves, finds and edits notes, and keeps the To-do lists. See [[Claude Notes skill and scheduled tasks]].
 - **Changing the page**: Claude can change this page to suit you. See [[Changing Claude Notes with Claude]].

@@ -1,5 +1,21 @@
 # Worklog
 
+## 2026-11-24 (evening): Phases 3 and 4
+
+Live page published as version 67.
+
+- Mind map the links (Actions, `runLinks`): the open note, its links and backlinks, and theirs, capped at about 60 circles; no Claude call. "Ask Claude to group the branches" regroups the same notes.
+- Mind map these notes (`#nmap` in the notes list head, `runTopicMap`): a folder with its sub-folders, or the current search. Sends title, tags, keywords and summary only (60,000 character cap), shows count and estimate first, and saves as a note tagged `Mind maps`, source `mindmap`. A map label that is a note's title (also written `[[Title]]`) opens that note in the reader.
+- Ideas: `meta/ideas` drives a start-page section under Pinned, with Dismiss. The page now logs `activity.searches` (list, 50 a day) and `activity.opened` (counts).
+- Web Saves (`wsRun`, `WS_PLAN`, `WS_APPLY`): four buttons in the Web Saves folder; each step is planned by Claude, reviewed in the Auto-improve dialog, then applied; a replacement is written before its original goes to Recently deleted. Over 10 notes: Proceed, Cancel or Schedule for overnight (`meta/websaves`). `confirmBox` takes an optional third button.
+- Combine differs from the brief: one call groups all web saves from titles and opening lines, then one call per group drafts the merge, so related saves are found across batches. Add and Create run in batches of 8.
+- Docs: `docs/bookmarklet.md`, `plugin/skills/notes/references/web-saves.md` (the page's prompts follow it), three new prompts in `docs/scheduled-tasks.md` (Research queue, Ideas, Web Saves), a new Help note "Web Saves in Claude Notes", SKILL.md, schema.md, README.
+- Tests: `p34.js` (17 checks: maps, Ideas, activity, Web Saves at desktop, phone dark and read-only), `bm.js` (both bookmarklet versions agree; a long page is cut), `help.js`; the older suites still pass on both copies.
+
+Not checked: whether `claude.ai/new?q=` fills the message in (the built-in browser was not signed in), so the bookmarklet also copies to the clipboard. None of the three new scheduled tasks is set up, and their prompts have not been run. The Web Saves prompts were tested against a stand-in for Claude, not real answers.
+
+Not done: Phase 5 (encrypted folders, file links).
+
 ## 2026-11-24 (later): Phase 2, and two fixes
 
 Live page published as version 59.
