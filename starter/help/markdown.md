@@ -42,6 +42,30 @@ flowchart LR
 
 Edit and View mode show the text. If the diagram has a mistake, the reader shows the text with the error under it.
 
+**Mind maps.** A `mermaid` block whose first line is `mindmap` is drawn by the notes page itself, as rings of circles. Indent by two spaces to put a node under another. A line `::icon(name)` straight under a node gives it an icon, shown on the centre and the main branches; the name is a Google Material Symbols name such as `gavel`, `payments` or `calendar_month` (a name that is not an icon is left out). A line `%% box: Title | text` adds a box of key points beside the map. This one is live:
+
+```mermaid
+mindmap
+  root((Claude Notes))
+  ::icon(edit_note)
+    Write
+    ::icon(edit)
+      Markdown
+      Quick note
+      To-do lists
+    Find
+    ::icon(search)
+      Search
+      Folders
+      Graph view
+    Ask Claude
+    ::icon(auto_awesome)
+      Summarise
+      Fact-check
+      Mind map
+  %% box: Try it | Open a long note, choose Actions, then Mind map this note.
+```
+
 ## Tables
 ```
 | Country | Rate |
