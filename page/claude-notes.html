@@ -374,16 +374,19 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
 .emeta>summary::-webkit-details-marker{display:none}.emeta>summary::before{content:"";flex:none;width:6px;height:6px;border:solid var(--quiet);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .15s}
 .emeta[open]>summary::before{transform:rotate(45deg)}.emeta>summary:hover{color:var(--ink)}.emeta>summary:focus-visible{outline:2px solid var(--slate);outline-offset:2px;border-radius:4px}
 @media(prefers-reduced-motion:reduce){.emeta>summary::before{transition:none}}
+.etools{flex-wrap:nowrap;align-items:flex-start}.etools>.emeta{flex:1}
+.emenu{position:relative;flex:none;margin-left:auto}
+.tools{position:absolute;top:calc(100% + 4px);right:0;min-width:230px}.tools .tick{margin-left:auto;padding-left:12px;visibility:hidden}.tools .tick svg{color:var(--acc)}.tools [aria-checked=true] .tick{visibility:visible}
 /* Focus mode (edit only): sidebars, fields and tools go; the bar fades until the pointer comes near it. Esc or the button leaves. */
 
-body.focus .side,body.focus .emeta,body.focus .etools>:not(#focusbtn),body.focus .pagebar>:not(#saved,.grow,#mode){display:none!important}
+body.focus .side,body.focus .emeta,body.focus .etools>:not(.emenu,#picker),body.focus .pagebar>:not(#saved,.grow,#mode){display:none!important}
 body.focus .shell{grid-template-columns:minmax(0,1fr)!important}body.focus .page{grid-column:1}
 body.focus .pagebar{border-bottom-color:transparent}
 body.focus .content{max-width:calc(72ch + 2 * clamp(16px,4vw,48px));padding-top:clamp(24px,8vh,96px)}
 body.focus .body{min-height:70vh}
 body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body.focus .live .ln{transition:opacity .3s ease}
-@media(hover:hover){body.focus .pagebar,body.focus #focusbtn{opacity:0;transition:opacity .4s ease}body.focus .pagebar:is(:hover,:focus-within),body.focus #focusbtn:is(:hover,:focus-visible){opacity:1}}
-@media(prefers-reduced-motion:reduce){body.focus .pagebar,body.focus #focusbtn,body.focus .live .ln{transition:none}}
+@media(hover:hover){body.focus .pagebar,body.focus .emenu{opacity:0;transition:opacity .4s ease}body.focus .pagebar:is(:hover,:focus-within),body.focus .emenu:is(:hover,:focus-within){opacity:1}}
+@media(prefers-reduced-motion:reduce){body.focus .pagebar,body.focus .emenu,body.focus .live .ln{transition:none}}
 /* Form-control borders at 3:1 or better; last so it wins over the rules above */
 .searchbox input,.nsort select,.filepick select,.gbar select,.palsel,.csbtn,.aiin,.picker input,.chatrow textarea{border-color:var(--edge)}
 </style>
@@ -461,9 +464,9 @@ body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body
       <article id="reader" hidden><h1 id="rtitle" class="rt"></h1><div id="rmeta" class="meta"></div><div id="rtags" class="chips"></div><div id="rkw" class="kw" hidden></div><div id="rsummary" class="summary" hidden></div><div id="rbody" class="prose"></div><div id="rback" class="backlinks" hidden></div></article>
       <div id="editor" class="editor" hidden>
         <textarea id="title" class="title" rows="1" placeholder="Title" autocomplete="off" aria-label="Title"></textarea>
-        <details id="emeta" class="emeta"><summary id="emsum"></summary><div class="field"><label for="tags">Tags</label><input id="tags" placeholder="Work/Projects, Reading" autocomplete="off"></div>
-        <div class="field"><label for="kw">Keywords</label><input id="kw" placeholder="Words to find this note by" autocomplete="off"></div></details>
-        <div class="etools"><button id="linkbtn" class="btn ghost" type="button" data-icon="link">Link a note</button><button id="pvbtn" class="btn ghost" type="button" data-icon="eye" aria-pressed="false" title="Show formatting while you write">View mode</button><button id="writebtn" class="btn ghost" type="button" data-icon="sparkle" hidden>Write with Claude</button><button id="sumbtn" class="btn ghost" type="button" data-icon="doc" hidden>Summarise a document</button><button id="focusbtn" class="btn ghost" type="button" data-icon="maximise" aria-pressed="false" title="Focus mode: just the page (Ctrl or Cmd + Shift + F; Esc leaves)">Focus</button>
+        <div class="etools"><details id="emeta" class="emeta"><summary id="emsum"></summary><div class="field"><label for="tags">Tags</label><input id="tags" placeholder="Work/Projects, Reading" autocomplete="off"></div>
+        <div class="field"><label for="kw">Keywords</label><input id="kw" placeholder="Words to find this note by" autocomplete="off"></div></details><div class="emenu"><button id="toolsbtn" class="btn ghost" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="tools" data-icon="more">Tools</button>
+          <div id="tools" class="ctx tools" role="menu" aria-label="Writing tools" hidden><button id="linkbtn" type="button" role="menuitem" data-icon="link">Link a note</button><button id="pvbtn" type="button" role="menuitemcheckbox" aria-checked="false" data-icon="eye" title="Show formatting while you write">View mode<span class="tick" data-icon="done"></span></button><button id="focusbtn" type="button" role="menuitemcheckbox" aria-checked="false" data-icon="maximise" title="Just the page (Ctrl or Cmd + Shift + F; Esc leaves)">Focus mode<span class="tick" data-icon="done"></span></button><button id="writebtn" type="button" role="menuitem" data-icon="sparkle" hidden>Write with Claude</button><button id="sumbtn" type="button" role="menuitem" data-icon="doc" hidden>Summarise a document</button></div></div>
           <div id="picker" class="picker" hidden><input id="pq" placeholder="Find a note to link" aria-label="Find a note to link" autocomplete="off"><div id="plist"></div></div></div>
         <div id="ebody" class="ebody"><textarea id="body" class="body" placeholder="Write here. Markdown works: # heading, **bold**, - list, - [ ] task. It saves as you type." aria-label="Note text"></textarea><div id="pv" class="body live" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Note text, formatted" data-ph="Write here. Formatting shows as you type." spellcheck="true" hidden></div></div>
       </div>
@@ -545,6 +548,7 @@ const ICONS = {
   trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
   settings: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
   back: '<path d="m15 5-7 7 7 7"/>', larrow: '<path d="m15 5-7 7 7 7"/>', rarrow: '<path d="m9 5 7 7-7 7"/>', list: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+  more: '<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
   maximise: '<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>', restore: '<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>', close: '<path d="M6 6l12 12M18 6 6 18"/>', chev: '<path d="m9 6 6 6-6 6"/>',
   edit: '<path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="m13.5 7.5 3 3"/>', done: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
   graph: '<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="8" r="2.5"/><circle cx="10" cy="18" r="2.5"/><path d="M8.4 6.4 15.5 7.6M7 8.3l2.2 7.3M16.6 10.1l-4.9 6.2"/>',
@@ -774,7 +778,7 @@ function liveSnap(text, at) { if (liveAt >= 0 && Date.now() - liveT < 700 && liv
 function liveChanged(text, a, b) { liveSet(text, a, b); liveSnap(text, a); if ($('body').selectionStart != null && a != null) $('body').setSelectionRange(a, b ?? a); onEdit(); }
 const renderPv = () => {
   if (!liveOK) pvOn = false;
-  $('pvbtn').hidden = !liveOK; $('ebody').classList.toggle('split', pvOn); $('pv').hidden = !pvOn; $('pvbtn').ariaPressed = String(pvOn);
+  $('pvbtn').hidden = !liveOK; $('ebody').classList.toggle('split', pvOn); $('pv').hidden = !pvOn; $('pvbtn').ariaChecked = String(pvOn);
   if (pvOn) { const t = $('body').value; liveSet(t); if (!liveHist.length || liveHist[liveAt][0] !== t) { liveHist = [[t, 0]]; liveAt = 0; liveT = 0; } }
 };
 const fit = () => { if (CSS.supports('field-sizing', 'content')) return; for (const id of ['title', 'body']) { const e = $(id); e.style.height = 'auto'; e.style.height = e.scrollHeight + 'px'; } };
@@ -955,7 +959,7 @@ function renderReader() {
   $('rback').hidden = !back.length;
   $('rback').innerHTML = back.length ? '<h3>Linked from</h3>' + back.map(x => `<button type="button" data-note="${esc(x.id)}">${esc(x.title || 'Untitled')}</button>`).join('') : '';
 }
-function setFocus(on) { document.body.classList.toggle('focus', on); $('focusbtn').setAttribute('aria-pressed', on); if (on) $($('pv').hidden ? 'body' : 'pv').focus(); }
+function setFocus(on) { document.body.classList.toggle('focus', on); $('focusbtn').ariaChecked = String(on); if (on) $($('pv').hidden ? 'body' : 'pv').focus(); }
 function setMode(m) {
   mode = readOnly ? 'read' : m;
   if (mode !== 'edit') setFocus(false); else metaSum();
@@ -2214,6 +2218,12 @@ addEventListener('scroll', () => closeCtx(false), true); addEventListener('resiz
 for (const id of ['title', 'tags', 'kw', 'body']) $(id).addEventListener('input', () => { onEdit(); fit(); });
 $('pvbtn').addEventListener('click', () => { pvOn = !pvOn; store.set('preview', pvOn); if (pvOn) setCollapsed(true); renderPv(); fit(); (pvOn ? $('pv') : $('body')).focus({ preventScroll: true }); });
 $('focusbtn').addEventListener('click', () => setFocus(!document.body.classList.contains('focus')));
+// Tools menu in the editor: opens under its button; choosing an item, Esc, Tab or a click elsewhere closes it
+function setTools(on, refocus) { $('tools').hidden = !on; $('toolsbtn').ariaExpanded = String(on); if (on) $('tools').querySelector('button:not([hidden])').focus(); else if (refocus) $('toolsbtn').focus(); }
+$('toolsbtn').addEventListener('click', () => setTools($('tools').hidden));
+$('tools').addEventListener('click', e => { if (e.target.closest('button')) setTools(false); });
+$('tools').addEventListener('keydown', e => { const bs = [...$('tools').querySelectorAll('button:not([hidden])')], i = bs.indexOf(document.activeElement); if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); bs[(i + (e.key === 'ArrowDown' ? 1 : bs.length - 1)) % bs.length].focus(); } else if (e.key === 'Escape') { e.stopPropagation(); setTools(false, true); } else if (e.key === 'Tab') setTools(false); });
+document.addEventListener('pointerdown', e => { if (!$('tools').hidden && !e.target.closest('.emenu')) setTools(false); });
 {
   const pv = $('pv'); let composing = false;
   const sync = () => { const sel = selOf(pv); liveChanged(pv.textContent, sel ? sel[0] : null, sel ? sel[1] : undefined); };
