@@ -1892,21 +1892,40 @@ async function runMap() {
 /* Format code (a formatter, not a linter): json and yaml blocks are re-printed by their own parsers (yaml keeps comments); python is re-spaced by Claude
    and accepted only when nothing but white space differs. Every block is reviewed before it is applied.
    shortcut: python goes through Claude, so a re-wrap that needs new brackets is rejected; a WebAssembly formatter (ruff) would lift that */
-const FMT = { json: 'JSON', yaml: 'YAML', yml: 'YAML', python: 'Python', py: 'Python' };
+const FMT = { json: 'JSON', yaml: 'YAML', yml: 'YAML', python: 'Python', py: 'Python', xml: 'XML', xsd: 'XML', xsl: 'XML', xslt: 'XML' };
 function codeBlocks(text) {
   const L = text.split('\n'), out = [];
   for (let i = 0; i < L.length; i++) { if (!/^```/.test(L[i])) continue; const m = L[i].match(/^```\s*(\w+)\s*$/); let j = i + 1; while (j < L.length && !/^```/.test(L[j])) j++; if (m && j < L.length) out.push({ lang: m[1].toLowerCase(), a: i + 1, b: j, code: L.slice(i + 1, j).join('\n') }); i = j; }
   return out;
 }
 const fmtJson = code => { try { return { out: JSON.stringify(JSON.parse(code), null, 2) }; } catch (e) { const at = /position (\d+)/.exec(e.message); return { err: e.message + (at && !/line \d/.test(e.message) ? ` (line ${code.slice(0, +at[1]).split('\n').length})` : '') }; } };
+/* XML: the browser's own parser says whether the block is well formed; the text itself is then re-indented tag by tag, so the declaration, comments,
+   CDATA, attribute order and quotes stay exactly as written. An element holding only text stays on one line. The result is refused unless white space alone changed.
+   shortcut: text mixed with child elements is trimmed and put on its own line, and xml:space="preserve" is not honoured; skip such a block by unticking it */
+function fmtXml(code) {
+  const bad = new DOMParser().parseFromString(code, 'application/xml').querySelector('parsererror');
+  if (bad) return { err: (bad.querySelector('div') || bad).textContent.trim().split('\n')[0].slice(0, 300) };
+  const T = code.match(/<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>|<\?[\s\S]*?\?>|<!DOCTYPE[^\[>]*(?:\[[\s\S]*?\])?\s*>|<(?:"[^"]*"|'[^']*'|[^>"'])*>|[^<]+/g) || [], out = [];
+  const open = t => /^<[^\/!?]/.test(t) && !/\/>$/.test(t), close = t => /^<\//.test(t), text = t => t && t[0] !== '<'; let d = 0;
+  for (let i = 0; i < T.length; i++) {
+    const t = T[i], pad = () => '  '.repeat(d);
+    if (text(t)) { if (t.trim()) out.push(pad() + t.trim()); }
+    else if (close(t)) { d = Math.max(0, d - 1); out.push(pad() + t); }
+    else if (open(t) && close(T[i + 1] || '')) out.push(pad() + t + T[++i]);
+    else if (open(t) && text(T[i + 1]) && T[i + 1].trim() && close(T[i + 2] || '')) { out.push(pad() + t + T[i + 1].trim() + T[i + 2]); i += 2; }
+    else { out.push(pad() + t); if (open(t)) d++; }
+  }
+  const res = out.join('\n');
+  return res.replace(/\s+/g, '') === code.replace(/\s+/g, '') ? { out: res } : { err: 'This block could not be re-indented safely, so it was left alone.' };
+}
 async function runFormat() {
   if (!current) return; const before = $('body').value, blocks = codeBlocks(before).filter(b => FMT[b.lang]);
   $('ih').textContent = 'Format code'; $('ihint').textContent = 'Each block is shown before and after. Untick any you don’t want changed. Nothing changes until you press Apply.';
   $('impveil').hidden = false; $('ireview').innerHTML = ''; $('iapply').hidden = true; impPlan = null;
-  if (!blocks.length) { $('imsg').textContent = 'This note has no code blocks marked json, yaml or python.'; return; }
+  if (!blocks.length) { $('imsg').textContent = 'This note has no code blocks marked json, yaml, xml or python.'; return; }
   $('istop').hidden = false; $('imsg').textContent = 'Formatting…'; aiCtl = new AbortController(); const ctl = aiCtl, of = k => blocks.filter(b => FMT[b.lang] === k);
   try {
-    for (const b of of('JSON')) Object.assign(b, fmtJson(b.code));
+    for (const b of of('JSON')) Object.assign(b, fmtJson(b.code)); for (const b of of('XML')) Object.assign(b, fmtXml(b.code));
     const ys = of('YAML'), ps = of('Python');
     if (ys.length) { let Y = null; try { Y = await import(LIB.yaml); } catch (e) {} for (const b of ys) { if (!Y) { b.err = 'The YAML formatter could not be loaded. Check your connection and try again.'; continue; } const d = Y.parseDocument(b.code); if (d.errors.length) b.err = d.errors[0].message; else b.out = d.toString().replace(/\n+$/, ''); } }
     if (ps.length && !sample) for (const b of ps) b.err = 'Python is formatted by Claude, which is not available here.';

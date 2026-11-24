@@ -1,5 +1,13 @@
 # Worklog
 
+## 2026-11-24 (late night): Format code takes XML
+
+Live page published as version 69.
+
+- `fmtXml`: blocks marked `xml`, `xsd`, `xsl` or `xslt`. The browser's parser checks the block is well formed; the text is then re-indented tag by tag (two spaces), so the declaration, comments, CDATA and attributes stay as written. Refused unless only white space changed. No Claude call.
+- Known limit: text mixed with child elements is trimmed onto its own line, and `xml:space="preserve"` is not honoured.
+- Test: `px.js`.
+
 ## 2026-11-24 (night): large mind maps, process diagram, tabbed Settings
 
 Live page published as version 68.
