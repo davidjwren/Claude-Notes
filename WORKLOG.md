@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (button text)
+
+Live page published as version 71. Text on action buttons is 11px, 1pt up from 9.67px (asked for in a comment on the Edit button); the sidebar and the Graph and Statistics bars are unchanged.
+
 ## 2026-11-24 (code colours)
 
 Live page published as version 70.
