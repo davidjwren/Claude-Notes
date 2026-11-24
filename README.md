@@ -29,9 +29,11 @@ Claude Notes addresses two problems:
 ## What it does
 
 **Writing and organising**
-- Markdown notes that save as you type, with a formatted editing mode, tables, task lists and code blocks.
+- Markdown notes that save as you type, with a formatted editing mode (on by default), tables, task lists and code blocks.
+- **Focus mode** for writing: just the title and text, the lines away from the cursor faded back (Ctrl or Cmd + Shift + F).
 - Quick note box at the top of the sidebar: the first line becomes the title.
 - Tags become nested folders (`Work/Projects/Atlas`, up to four levels); a note can sit in several folders. Rename, move and pin folders; drag and drop on desktop.
+- **Kanban boards**: **New Kanban board** on the start page makes a note under To-do/Boards that shows as columns of cards you add, move (arrows or drag) and delete. It is a normal markdown note (`<!--kanban-->`, then `## Column` and `- card` lines), so search, backup and the skill work on it.
 - A **To-do** row for to-do lists, a **Help** section, **Most recent**, pinned notes, and **Recently deleted** for 30 days.
 - A **GitHub** section with one note per repository (README, branches, pull requests, file structure), kept up to date by Claude.
 - `[[Note title]]` links between notes, with "Linked from" on the target note.

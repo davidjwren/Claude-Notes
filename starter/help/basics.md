@@ -5,7 +5,8 @@ Everything you can do on the notes page, in one place. For how the page looks on
 - **New to-do list**: the button on the start page opens a new note tagged To-do, with a first empty task. Give it a title and add tasks.
 - **Quick note**: click into the Quick note box at the top of the sidebar and it opens out. The first line becomes the title; Save (or Ctrl or Cmd + Enter) puts it in Untagged, and Cancel or Esc clears it.
 - **Edit and Done**: press Edit (or double-click the text) to write in markdown. Notes save about 1.5 seconds after you stop typing, and the note bar shows "Saved" with the time. See [[Markdown cheatsheet]].
-- **View mode**: in the editor, View mode shows headings, bold and links formatted while you type. The text underneath is still plain markdown.
+- **View mode**: in the editor, View mode (on unless you turn it off) shows headings, bold and links formatted while you type. The text underneath is still plain markdown.
+- **Tags and keywords**: in the editor they sit folded on one line under the title; click it to change them.\n- **Focus mode**: the Focus button in the editor (or Ctrl or Cmd + Shift + F) hides everything but the title and text, and fades the lines away from the cursor. Esc or Done leaves it.
 - **Another device**: if the note changes on another device while you are editing, a warning offers "Load theirs" or "Keep mine".
 
 ## Tags, folders and keywords

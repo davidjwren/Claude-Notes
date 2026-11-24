@@ -189,6 +189,14 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
 .prose .wl{color:var(--slate);text-decoration:underline dotted;text-underline-offset:3px}
 .prose .broken{color:var(--quiet);text-decoration:line-through}
 .prose li.task{list-style:none;margin-left:-1.3em}
+.kb{display:flex;gap:12px;align-items:flex-start;overflow-x:auto;padding-bottom:8px}
+.kbcol{flex:1 0 190px;min-width:190px;padding:8px;border:1px solid var(--rule);border-radius:8px;background:var(--side)}
+.kbcol h3{margin:0 0 8px;font-size:1em}.kbcol h3 small{color:var(--quiet);font-weight:400}
+.kbcard{display:flex;gap:6px;justify-content:space-between;margin-bottom:6px;padding:8px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);cursor:grab;overflow-wrap:anywhere}
+.kbact{display:flex;flex:none;gap:2px;align-self:flex-start}
+.kbact button{min-width:32px;min-height:32px;border:0;border-radius:4px;background:none;color:var(--quiet)}.kbact button:hover:not(:disabled){background:var(--panel);color:var(--ink)}.kbact button:disabled{opacity:.3}
+.kbadd{width:100%;box-sizing:border-box;padding:8px;border:1px dashed var(--rule);border-radius:6px;background:none;color:var(--ink);font:inherit}
+.bsec .item .t svg{width:14px;height:14px;margin-right:6px;vertical-align:-2px;color:var(--quiet)}
 .prose hr{border:0;border-top:1px solid var(--rule);margin:1.5em 0}
 .prose .tbl{overflow-x:auto;margin:.9em 0}
 .prose table{border-collapse:collapse;font-size:calc(14.5px + var(--fd));line-height:1.45;min-width:100%}
@@ -348,6 +356,34 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
 @media(hover:none){.cardbtn,.lcoff{opacity:1}}
 /* Notes list header: the back button shows on the desktop too inside a sub-folder */
 .back.sub{display:inline-grid}
+/* Notes, read and write: a calmer header, quieter list furniture, the writing column at the reader's measure */
+::selection{background:color-mix(in srgb,var(--acc) 24%,var(--bg));color:var(--ink)}
+.title,.body,.field input{caret-color:var(--acc)}
+.rt{margin-bottom:10px}.kw{color:var(--quiet)}
+#rbody{margin-top:28px}
+.prose h2{margin-top:1.7em}
+.prose li{margin:.2em 0}.prose li::marker{color:var(--quiet)}
+.prose li.task input{width:1em;height:1em;margin:0 .5em 0 0;vertical-align:-.12em;accent-color:var(--acc)}
+.prose li.task:has(:checked){color:var(--quiet);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--quiet) 60%,transparent)}
+.prose blockquote{border-left-color:color-mix(in srgb,var(--acc) 45%,var(--bg));color:color-mix(in srgb,var(--ink) 80%,var(--bg))}
+.field{border-bottom-color:color-mix(in srgb,var(--rule) 70%,var(--bg))}.field label{color:var(--quiet);font-weight:500}
+.etools{padding-bottom:12px}
+#body,#pv{max-width:72ch}
+.body:focus-visible{box-shadow:none}
+.emeta>summary{display:flex;align-items:center;gap:8px;min-height:36px;padding:2px 0;color:var(--sys);font-size:calc(13px + var(--fd));cursor:pointer;list-style:none;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.emeta>summary::-webkit-details-marker{display:none}.emeta>summary::before{content:"";flex:none;width:6px;height:6px;border:solid var(--quiet);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .15s}
+.emeta[open]>summary::before{transform:rotate(45deg)}.emeta>summary:hover{color:var(--ink)}.emeta>summary:focus-visible{outline:2px solid var(--slate);outline-offset:2px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){.emeta>summary::before{transition:none}}
+/* Focus mode (edit only): sidebars, fields and tools go; the bar fades until the pointer comes near it. Esc or the button leaves. */
+
+body.focus .side,body.focus .emeta,body.focus .etools>:not(#focusbtn),body.focus .pagebar>:not(#saved,.grow,#mode){display:none!important}
+body.focus .shell{grid-template-columns:minmax(0,1fr)!important}body.focus .page{grid-column:1}
+body.focus .pagebar{border-bottom-color:transparent}
+body.focus .content{max-width:calc(72ch + 2 * clamp(16px,4vw,48px));padding-top:clamp(24px,8vh,96px)}
+body.focus .body{min-height:70vh}
+body.focus .live:focus .ln:not(.on){opacity:.38;transition:opacity .3s ease}body.focus .live .ln{transition:opacity .3s ease}
+@media(hover:hover){body.focus .pagebar,body.focus #focusbtn{opacity:0;transition:opacity .4s ease}body.focus .pagebar:is(:hover,:focus-within),body.focus #focusbtn:is(:hover,:focus-visible){opacity:1}}
+@media(prefers-reduced-motion:reduce){body.focus .pagebar,body.focus #focusbtn,body.focus .live .ln{transition:none}}
 /* Form-control borders at 3:1 or better; last so it wins over the rules above */
 .searchbox input,.nsort select,.filepick select,.gbar select,.palsel,.csbtn,.aiin,.picker input,.chatrow textarea{border-color:var(--edge)}
 </style>
@@ -417,7 +453,7 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
       <div id="blank" class="blank">
         <svg class="bigstar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5v19M2.5 12h19M5.3 5.3l13.4 13.4M18.7 5.3 5.3 18.7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
         <p>Choose a folder and a note, or start a new one.</p>
-        <div class="row"><button id="blanknew" class="btn accbtn" type="button" data-icon="newnote">New note</button><button id="blanktodo" class="btn ghost" type="button" data-icon="todo">New to-do list</button></div>
+        <div class="row"><button id="blanknew" class="btn accbtn" type="button" data-icon="newnote">New note</button><button id="blanktodo" class="btn ghost" type="button" data-icon="todo">New to-do list</button><button id="blankkanban" class="btn ghost" type="button" data-icon="todo">New Kanban board</button></div>
         <section id="brecent" class="bsec" aria-label="Most recent notes" hidden></section>
         <section id="bpinned" class="bsec" aria-label="Pinned notes" hidden></section>
       </div>
@@ -425,9 +461,9 @@ mark{background:var(--mark);color:var(--ink);border-radius:2px}
       <article id="reader" hidden><h1 id="rtitle" class="rt"></h1><div id="rmeta" class="meta"></div><div id="rtags" class="chips"></div><div id="rkw" class="kw" hidden></div><div id="rsummary" class="summary" hidden></div><div id="rbody" class="prose"></div><div id="rback" class="backlinks" hidden></div></article>
       <div id="editor" class="editor" hidden>
         <textarea id="title" class="title" rows="1" placeholder="Title" autocomplete="off" aria-label="Title"></textarea>
-        <div class="field"><label for="tags">Tags</label><input id="tags" placeholder="Work/Projects, Reading" autocomplete="off"></div>
-        <div class="field"><label for="kw">Keywords</label><input id="kw" placeholder="Words to find this note by" autocomplete="off"></div>
-        <div class="etools"><button id="linkbtn" class="btn ghost" type="button" data-icon="link">Link a note</button><button id="pvbtn" class="btn ghost" type="button" data-icon="eye" aria-pressed="false" title="Show formatting while you write">View mode</button><button id="writebtn" class="btn ghost" type="button" data-icon="sparkle" hidden>Write with Claude</button><button id="sumbtn" class="btn ghost" type="button" data-icon="doc" hidden>Summarise a document</button>
+        <details id="emeta" class="emeta"><summary id="emsum"></summary><div class="field"><label for="tags">Tags</label><input id="tags" placeholder="Work/Projects, Reading" autocomplete="off"></div>
+        <div class="field"><label for="kw">Keywords</label><input id="kw" placeholder="Words to find this note by" autocomplete="off"></div></details>
+        <div class="etools"><button id="linkbtn" class="btn ghost" type="button" data-icon="link">Link a note</button><button id="pvbtn" class="btn ghost" type="button" data-icon="eye" aria-pressed="false" title="Show formatting while you write">View mode</button><button id="writebtn" class="btn ghost" type="button" data-icon="sparkle" hidden>Write with Claude</button><button id="sumbtn" class="btn ghost" type="button" data-icon="doc" hidden>Summarise a document</button><button id="focusbtn" class="btn ghost" type="button" data-icon="maximise" aria-pressed="false" title="Focus mode: just the page (Ctrl or Cmd + Shift + F; Esc leaves)">Focus</button>
           <div id="picker" class="picker" hidden><input id="pq" placeholder="Find a note to link" aria-label="Find a note to link" autocomplete="off"><div id="plist"></div></div></div>
         <div id="ebody" class="ebody"><textarea id="body" class="body" placeholder="Write here. Markdown works: # heading, **bold**, - list, - [ ] task. It saves as you type." aria-label="Note text"></textarea><div id="pv" class="body live" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Note text, formatted" data-ph="Write here. Formatting shows as you type." spellcheck="true" hidden></div></div>
       </div>
@@ -631,6 +667,15 @@ function md(src) {
   return out.join('');
 }
 
+/* Kanban board: a note whose first line is <!--kanban-->, then "## Column" headings with "- card" lines. The reader shows it as a board; Edit shows the plain text.
+   shortcut: lines that are not a heading or a "- " card are dropped the first time the board is changed on the page; upgrade if boards need free text */
+const KB = /^\s*<!--kanban-->/;
+function kbParse(t) { const cols = []; for (const l of t.replace(KB, '').split('\n')) { let m; if ((m = l.match(/^##\s+(.*)$/))) cols.push({ name: m[1].trim(), cards: [] }); else if (cols.length && (m = l.match(/^[-*+]\s+(.*)$/))) cols.at(-1).cards.push(m[1].trim()); } return cols; }
+const kbText = cols => '<!--kanban-->\n' + cols.map(c => `## ${c.name}\n${c.cards.map(x => '- ' + x).join('\n')}`).join('\n\n') + '\n';
+function kbHtml(cols) {
+  return '<div class="kb">' + cols.map((c, i) => `<section class="kbcol" data-c="${i}"><h3>${esc(c.name)} <small>${c.cards.length}</small></h3>` + c.cards.map((x, j) => `<div class="kbcard" draggable="${!readOnly}" data-c="${i}" data-j="${j}"><span>${inline(esc(x))}</span>${readOnly ? '' : `<span class="kbact"><button type="button" data-kb="l" aria-label="Move left"${i ? '' : ' disabled'}>‹</button><button type="button" data-kb="r" aria-label="Move right"${i < cols.length - 1 ? '' : ' disabled'}>›</button><button type="button" data-kb="x" aria-label="Delete card">✕</button></span>`}</div>`).join('') + (readOnly ? '' : `<input class="kbadd" data-c="${i}" placeholder="Add a card" aria-label="Add a card to ${esc(c.name)}">`) + '</section>').join('') + '</div>';
+}
+
 /* Tags: "Work/Projects, Reading"; a note appears in every folder it is tagged with, and in their parents */
 function parseTags(s) {
   let trimmed = false; const seen = new Set(), tags = [];
@@ -687,7 +732,7 @@ const setSaved = (t, bad) => { $('saved').textContent = t; $('saved').classList.
 // Grow the title and text boxes to their content where CSS field-sizing is missing (older Safari, Firefox)
 /* View mode: a second editing box that shows the markdown with its formatting. Tags are only wrapped around the text, never
    added to it, so the box's text is always the note's markdown. The hidden textarea stays the copy everything else reads. */
-let pvOn = store.get('preview', false), liveHist = [], liveAt = -1, liveT = 0;
+let pvOn = store.get('preview', true), liveHist = [], liveAt = -1, liveT = 0;
 const liveOK = (() => { const d = document.createElement('div'); d.setAttribute('contenteditable', 'plaintext-only'); return d.contentEditable === 'plaintext-only'; })();
 const hli = s => s.replace(/(`)([^`\n]+)(`)/g, '<code><span class="hd">$1</span>$2<span class="hd">$3</span></code>')
   .replace(/(\[\[)([^\]\n]{1,200})(\]\])/g, '<span class="wl"><span class="hd">$1</span>$2<span class="hd">$3</span></span>')
@@ -818,11 +863,11 @@ function renderFolders() {
     (open ? (tags || '<div class="empty" style="padding:6px 10px">Tags you add to notes become folders here.</div>') : '') + ghHtml + recentHtml + helpHtml;
   $('trashbtn').classList.toggle('on', folder === 'trash' && !$('q').value.trim());
   // Blank page: the three most recent notes, and up to five pinned notes (the most recently edited first)
-  const brow = n => `<button type="button" class="item" data-open="${esc(n.id)}"><span class="t">${esc(n.title || 'Untitled')}</span><span class="m">${esc(fmtWhen(n.updated))}${(n.tags || []).length ? ' · ' + esc(n.tags.join(', ')) : ''}</span></button>`;
+  const brow = ic => n => `<button type="button" class="item" data-open="${esc(n.id)}"><span class="t">${icon(ic)}${esc(n.title || 'Untitled')}</span><span class="m">${esc(fmtWhen(n.updated))}${(n.tags || []).length ? ' · ' + esc(n.tags.join(', ')) : ''}</span></button>`;
   const bpins = notes.filter(n => n.pinned).sort((a, b) => String(b.updated || '').localeCompare(String(a.updated || ''))).slice(0, 5);
-  $('brecent').hidden = !recent.length; $('brecent').innerHTML = '<h2>Most recent</h2>' + recent.slice(0, 3).map(brow).join('');
-  $('bpinned').hidden = !bpins.length; $('bpinned').innerHTML = '<h2>Pinned</h2>' + bpins.map(brow).join('');
-  $('blanknew').disabled = $('blanktodo').disabled = readOnly || !connected;
+  $('brecent').hidden = !recent.length; $('brecent').innerHTML = '<h2>Most recent</h2>' + recent.slice(0, 3).map(brow('newnote')).join('');
+  $('bpinned').hidden = !bpins.length; $('bpinned').innerHTML = '<h2>Pinned</h2>' + bpins.map(brow('pin')).join('');
+  $('blanknew').disabled = $('blanktodo').disabled = $('blankkanban').disabled = readOnly || !connected;
 }
 function selectFolder(f) {
   folder = f; $('q').value = '';
@@ -904,14 +949,16 @@ function renderReader() {
   let src = $('body').value; const lead = src.match(/^\s*(?:#{1,6}\s+)?([^\n]*)(?:\n|$)/), ttl = $('title').value.trim().toLowerCase();
   if (ttl && lead && lead[1].trim().toLowerCase() === ttl) src = src.slice(lead[0].length);
   $('rbody').dataset.off = $('body').value.slice(0, $('body').value.length - src.length).split('\n').length - 1; // lines skipped, for the paragraph tools
-  $('rbody').innerHTML = $('body').value.trim() ? md(src) : '<p class="hint">This note is empty. Press Edit to write.</p>';
+  $('rbody').innerHTML = KB.test(src) ? kbHtml(kbParse(src)) : $('body').value.trim() ? md(src) : '<p class="hint">This note is empty. Press Edit to write.</p>';
   decorateCards();
   const back = notes.filter(x => x.id !== current.id && (x.links || []).includes(current.id));
   $('rback').hidden = !back.length;
   $('rback').innerHTML = back.length ? '<h3>Linked from</h3>' + back.map(x => `<button type="button" data-note="${esc(x.id)}">${esc(x.title || 'Untitled')}</button>`).join('') : '';
 }
+function setFocus(on) { document.body.classList.toggle('focus', on); $('focusbtn').setAttribute('aria-pressed', on); if (on) $($('pv').hidden ? 'body' : 'pv').focus(); }
 function setMode(m) {
   mode = readOnly ? 'read' : m;
+  if (mode !== 'edit') setFocus(false); else metaSum();
   const open = !!current;
   $('blank').hidden = open; $('reader').hidden = !open || mode !== 'read'; $('editor').hidden = !open || mode !== 'edit';
   $('mode').innerHTML = icon(mode === 'edit' ? 'done' : 'edit') + `<span>${mode === 'edit' ? 'Done' : 'Edit'}</span>`; $('mode').classList.toggle('ghost', mode !== 'edit');
@@ -1001,7 +1048,9 @@ async function newNote(tag) {
   loadEditor(newId(), { created: new Date().toISOString(), source: 'manual', tags: tag ? [tag] : [] }, '', true);
   $('title').placeholder = 'Title'; $('title').focus();
 }
+function metaSum() { const t = parseTags($('tags').value).tags, k = parseList($('kw').value); $('emsum').textContent = t.length || k.length ? [t.join(', '), k.length ? 'Keywords: ' + k.join(', ') : ''].filter(Boolean).join(' · ') : 'Add tags and keywords'; }
 function onEdit() {
+  metaSum();
   if (!current || readOnly) return;
   if (pvOn && document.activeElement !== $('pv') && $('pv').textContent !== $('body').value) renderPv();
   dirty = true; setSaved('Editing…');
@@ -2034,7 +2083,7 @@ $('reader').addEventListener('click', e => {
   const pw = e.target.closest('.pwchip'); if (pw) { e.preventDefault(); const nm = pw.dataset.pw; copyText(nm).then(ok => setSaved(ok ? `Copied “${nm}”: search for it in Passwords` : `Couldn’t copy: search Passwords for “${nm}”`, !ok)); return; } if (n) { e.preventDefault(); openNote(n.dataset.note); return; }
   const f = e.target.closest('[data-folder]'); if (f) selectFolder(f.dataset.folder);
 });
-$('rbody').addEventListener('dblclick', () => { if (!readOnly) setMode('edit'); });
+$('rbody').addEventListener('dblclick', e => { if (!readOnly && !e.target.closest('.kb')) setMode('edit'); });
 $('q').addEventListener('input', () => {
   const q = $('q').value.trim();
   if (q) { $('shell').classList.add('has-folder'); setPane('notes'); loadBodies(false); }
@@ -2107,6 +2156,26 @@ $('closenote').addEventListener('click', closeNote);
 }
 $('rbody').addEventListener('click', e => { const b = e.target.closest('.cardbtn, .lcoff'); if (!b) return; e.preventDefault(); e.stopPropagation(); setCardLine(+b.dataset.l.split(',')[0], b.classList.contains('cardbtn')); });
 $('blanknew').addEventListener('click', () => newNote(''));
+// Kanban board: edits go through the note text, so saving, search, backup and the /notes skill work as for any note
+function kbSet(mut) { const cols = kbParse($('body').value); mut(cols); $('body').value = kbText(cols); onEdit(); renderReader(); }
+$('rbody').addEventListener('click', e => {
+  const b = e.target.closest('[data-kb]'), card = b && b.closest('.kbcard'); if (!card || readOnly) return;
+  const c = +card.dataset.c, j = +card.dataset.j, k = b.dataset.kb;
+  kbSet(cols => { const [x] = cols[c].cards.splice(j, 1); if (k !== 'x') cols[c + (k === 'r' ? 1 : -1)].cards.push(x); });
+});
+$('rbody').addEventListener('keydown', e => {
+  const i = e.target.closest('.kbadd'); if (!i || e.key !== 'Enter' || !i.value.trim() || readOnly) return;
+  const c = +i.dataset.c; kbSet(cols => cols[c].cards.push(i.value.trim().replace(/\s+/g, ' '))); $('rbody').querySelector(`.kbadd[data-c="${c}"]`).focus();
+});
+let kbDrag;
+$('rbody').addEventListener('dragstart', e => { kbDrag = e.target.closest('.kbcard'); if (kbDrag) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', ''); } });
+$('rbody').addEventListener('dragover', e => { if (kbDrag && e.target.closest('.kbcol')) e.preventDefault(); });
+$('rbody').addEventListener('drop', e => {
+  const col = e.target.closest('.kbcol'); if (!kbDrag || !col) return; e.preventDefault();
+  const c = +kbDrag.dataset.c, j = +kbDrag.dataset.j, to = +col.dataset.c; kbDrag = null;
+  kbSet(cols => cols[to].cards.push(...cols[c].cards.splice(j, 1)));
+});
+$('blankkanban').addEventListener('click', async () => { await newNote('To-do/Boards'); if (!current || !current.isNew) return; $('body').value = '<!--kanban-->\n## To do\n\n## Doing\n\n## Done\n'; renderPv(); $('title').placeholder = 'Board name'; $('title').focus(); });
 // A new to-do list: a note tagged To-do with a first empty task, title first
 $('blanktodo').addEventListener('click', async () => { await newNote('To-do'); if (!current || !current.isNew) return; $('body').value = '- [ ] '; renderPv(); $('title').placeholder = 'To-do list name'; $('title').focus(); });
 $('blank').addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (b) openNote(b.dataset.open); });
@@ -2144,6 +2213,7 @@ $('sbody').addEventListener('click', e => { const b = e.target.closest('[data-ca
 addEventListener('scroll', () => closeCtx(false), true); addEventListener('resize', () => closeCtx(false));
 for (const id of ['title', 'tags', 'kw', 'body']) $(id).addEventListener('input', () => { onEdit(); fit(); });
 $('pvbtn').addEventListener('click', () => { pvOn = !pvOn; store.set('preview', pvOn); if (pvOn) setCollapsed(true); renderPv(); fit(); (pvOn ? $('pv') : $('body')).focus({ preventScroll: true }); });
+$('focusbtn').addEventListener('click', () => setFocus(!document.body.classList.contains('focus')));
 {
   const pv = $('pv'); let composing = false;
   const sync = () => { const sel = selOf(pv); liveChanged(pv.textContent, sel ? sel[0] : null, sel ? sel[1] : undefined); };
@@ -2260,7 +2330,8 @@ $('yes').addEventListener('click', () => closeBox(true));
 $('no').addEventListener('click', () => closeBox(false));
 $('veil').addEventListener('click', e => { if (e.target === $('veil')) closeBox(false); });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { const open = ['writeveil', 'sumveil', 'impveil'].find(v => !$(v).hidden); if (!$('ctx').hidden) closeCtx(true); else if (!$('mvveil').hidden) closeMove(); else if (!$('txtveil').hidden) closeText(null); else if (!$('repoveil').hidden) $('repoveil').hidden = true; else if (!$('veil').hidden) closeBox(false); else if (open) { if (aiCtl) aiCtl.abort(); $(open).hidden = true; } else if (!$('setveil').hidden) $('setveil').hidden = true; else if (!$('picker').hidden) $('picker').hidden = true; else if (!$('chat').hidden) setChat(false); }
+  if (e.key === 'Escape') { const open = ['writeveil', 'sumveil', 'impveil'].find(v => !$(v).hidden); if (!$('ctx').hidden) closeCtx(true); else if (!$('mvveil').hidden) closeMove(); else if (!$('txtveil').hidden) closeText(null); else if (!$('repoveil').hidden) $('repoveil').hidden = true; else if (!$('veil').hidden) closeBox(false); else if (open) { if (aiCtl) aiCtl.abort(); $(open).hidden = true; } else if (!$('setveil').hidden) $('setveil').hidden = true; else if (!$('picker').hidden) $('picker').hidden = true; else if (!$('chat').hidden) setChat(false); else if (document.body.classList.contains('focus')) setFocus(false); }
+  else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f' && mode === 'edit') { e.preventDefault(); setFocus(!document.body.classList.contains('focus')); }
   else if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); goHistory(e.key === 'ArrowLeft' ? -1 : 1); }
   else if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); if ($('shell').classList.contains('collapsed')) setCollapsed(false); setPane('tags'); $('q').focus(); }
 });
@@ -2276,7 +2347,7 @@ applySettings(); setCollapsed(store.get('collapsed', false) && !isMobile()); set
   if (!db) { $('folders').innerHTML = '<div class="empty">Open this page in Claude, signed in, to see your notes.</div>'; $('backup').textContent = 'Notes are unavailable in this view'; return; }
   const loading = setTimeout(() => { if (!connected) { $('backup').textContent = 'Notes can’t be reached yet'; $('backup').classList.add('bad'); } }, 10000);
   const user = await host.use('user');
-  if (user && !(await user.isOwner())) { readOnly = true; for (const id of ['newtop', 'newin', 'quickbox', 'blanktodo']) $(id).hidden = true; }
+  if (user && !(await user.isOwner())) { readOnly = true; for (const id of ['newtop', 'newin', 'quickbox', 'blanktodo', 'blankkanban']) $(id).hidden = true; }
   dl = await host.use('downloads'); $('exportsec').hidden = !dl;
   host.use('sample').then(s => aiAvailable(s)).catch(() => aiAvailable(null));
   /* Notes: a database query returns at most 1,000 records (MAX), so the newest 1,000 stay live and older notes are read in
