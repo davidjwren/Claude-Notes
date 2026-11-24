@@ -581,7 +581,7 @@ select{appearance:none;-webkit-appearance:none;padding-right:26px!important;back
   <div class="row"><h2 id="uh" style="flex:1;margin:0">Claude usage by this page</h2><button class="ib" type="button" data-close="useveil" data-icon="close" aria-label="Close"></button></div>
   <div id="usebody"></div>
   <h3><label for="budget">5-hour budget for notes (estimated tokens)</label></h3><input id="budget" class="mvq" type="number" min="1000" step="1000" inputmode="numeric">
-  <p class="hint" style="margin:12px 0 0">This is the page’s own estimate, at about 4 characters per token, of what its Claude features sent and received. The page cannot read your plan’s real 5-hour usage (only the Claude app’s usage card shows that) and cannot see Claude use outside this page. The window is this hour and the four before it, so “5 hours” is approximate. Hour and model figures are counted from the day this ring was added.</p>
+  <p class="hint" style="margin:12px 0 0">This is the page’s own estimate, at about 4 characters per token, of what its Claude features sent and received. The page cannot read your plan’s real 5-hour usage (only the Claude app’s usage card shows that) and cannot see Claude use outside this page. The window is this hour and the four before it, so “5 hours” is approximate. It keeps 8 days of figures, in a record of its own that only this page writes.</p>
 </div></div>
 <aside id="chat" class="chat" aria-label="Chat with Claude" hidden>
   <div class="chathead"><div class="ttl"><b>Chat with Claude</b><small id="chatabout"></small></div>
@@ -2517,7 +2517,24 @@ const actCache = new Map();
 function addTo(rec, add) { for (const [k, v] of Object.entries(add)) { if (Array.isArray(v)) rec[k] = [...new Set([...(Array.isArray(rec[k]) ? rec[k] : []), ...v])].slice(0, 50); else if (typeof v === 'number') rec[k] = (Number(rec[k]) || 0) + v; else if (v && typeof v === 'object') rec[k] = addTo(rec[k] && typeof rec[k] === 'object' ? rec[k] : {}, v); else rec[k] = v; } return rec; }
 function logAct(add) { if (!db || readOnly) return; const k = dayKey(Date.now()); actPending.set(k, addTo(actPending.get(k) || {}, add)); clearTimeout(actT); actT = setTimeout(flushAct, 4000); }
 // Tokens are also counted by local hour and by the model asked for, for the usage ring
-function logTokens(feature, n, model) { if (n > 0) logAct({ tokens: { [feature]: n }, hours: { [String(new Date().getHours()).padStart(2, '0')]: n }, ...(model && { models: { [model]: n } }) }); }
+function logTokens(feature, n, model) {
+  if (!(n > 0)) return; const add = { tokens: { [feature]: n }, hours: { [String(new Date().getHours()).padStart(2, '0')]: n }, ...(model && { models: { [model]: n } }) };
+  logAct(add); if (!db || readOnly) return;
+  const day = { [dayKey(Date.now())]: add }; addTo(usage, structuredClone(day)); usePending = addTo(usePending || {}, day); renderRing(); clearTimeout(useT); useT = setTimeout(flushUse, 1500);
+}
+/* The usage ring keeps its own record, meta/usage = {<day>: {tokens, hours, models}} for the last 8 days, which only this page writes. The day's activity record is
+   shared with Claude's skill and tasks, and one of them replacing it used to wipe the ring's figures. The ring shows a call at once; the record follows a moment later,
+   and a failed save is kept, retried and shown in the usage box. */
+let usage = {}, usePending = null, useT = 0, useErr = '';
+async function flushUse() {
+  const add = usePending; usePending = null; if (!add || !db) return;
+  try {
+    const s = await db.doc('meta/usage').get(), rec = addTo(s.exists ? s.data() || {} : {}, add), old = dayKey(Date.now() - 8 * DAY);
+    for (const k of Object.keys(rec)) if (k < old) delete rec[k];
+    await db.doc('meta/usage').set(rec); useErr = '';
+  } catch (e) { usePending = addTo(add, usePending || {}); useErr = errCode(e); clearTimeout(useT); useT = setTimeout(flushUse, 15000); }
+  renderRing(); if (!$('useveil').hidden) renderUse();
+}
 async function flushAct() {
   if (actBusy) await actBusy;
   const todo = actPending; actPending = new Map(); if (!todo.size || !db) return;
@@ -2534,7 +2551,7 @@ async function flushAct() {
    shortcut: hours are logged as totals, so the 5-hour figure has no split by feature or model; log hours.<HH>.<feature> if that split is wanted */
 const FEATS = [['write', 'Write with Claude'], ['summarise', 'Summarise'], ['improve', 'Auto-improve'], ['chat', 'Chat about the note'], ['para', 'Paragraph tools'], ['factcheck', 'Fact-check'], ['mindmap', 'Mind map'], ['diagram', 'Process diagram'], ['websaves', 'Web Saves'], ['format', 'Format code']];
 async function loadAct(n) { for (let i = 0; i < n; i++) { const k = dayKey(Date.now() - i * DAY); try { const s = await db.doc('activity/' + k).get(); if (s.exists) actCache.set(k, s.data() || {}); } catch (e) {} } }
-function use5h(now = Date.now()) { let t = 0; for (let i = 0; i < 5; i++) { const d = new Date(now - i * 36e5), r = actCache.get(dayKey(d)); t += Number(r && r.hours && r.hours[String(d.getHours()).padStart(2, '0')]) || 0; } return t; }
+function use5h(now = Date.now()) { let t = 0; for (let i = 0; i < 5; i++) { const d = new Date(now - i * 36e5), r = usage[dayKey(d)]; t += Number(r && r.hours && r.hours[String(d.getHours()).padStart(2, '0')]) || 0; } return t; }
 const ringSvg = f => `<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke-width="5" class="rtrack"/><circle cx="18" cy="18" r="15" fill="none" stroke-width="5" class="rfill" stroke-dasharray="${(Math.min(1, f) * 94.25).toFixed(1)} 94.25" transform="rotate(-90 18 18)"/></svg>`;
 function renderRing() {
   const t = use5h(), b = Number(settings.budget) || 100000;
@@ -2542,14 +2559,14 @@ function renderRing() {
   $('ringbtn').ariaLabel = `Claude usage by this page: about ${fmtN(t)} estimated tokens in the last 5 hours, ${Math.round(t / b * 100)}% of your budget of ${fmtN(b)}. Show the breakdown.`;
 }
 function renderUse() {
-  const sum = n => { const tok = {}, mod = {}; let t = 0; for (let i = 0; i < n; i++) { const r = actCache.get(dayKey(Date.now() - i * DAY)) || {}; for (const [k, x] of Object.entries(r.tokens || {})) { tok[k] = (tok[k] || 0) + (Number(x) || 0); t += Number(x) || 0; } for (const [k, x] of Object.entries(r.models || {})) mod[k] = (mod[k] || 0) + (Number(x) || 0); } return { t, tok, mod }; };
+  const sum = n => { const tok = {}, mod = {}; let t = 0; for (let i = 0; i < n; i++) { const r = usage[dayKey(Date.now() - i * DAY)] || {}; for (const [k, x] of Object.entries(r.tokens || {})) { tok[k] = (tok[k] || 0) + (Number(x) || 0); t += Number(x) || 0; } for (const [k, x] of Object.entries(r.models || {})) mod[k] = (mod[k] || 0) + (Number(x) || 0); } return { t, tok, mod }; };
   const d1 = sum(1), d7 = sum(7), t = use5h(), b = Number(settings.budget) || 100000, row = (h, a, c) => `<tr><th scope="row">${esc(h)}</th><td class="n">≈ ${fmtN(a)}</td><td class="n">≈ ${fmtN(c)}</td></tr>`;
-  $('usebody').innerHTML = `<div class="ringbig">${ringSvg(t / b)}<div><div style="font-size:calc(26px + var(--fd));font-weight:600">≈ ${fmtN(t)}</div><div class="hint">estimated tokens in about the last 5 hours: ${Math.round(t / b * 100)}% of your budget of ${fmtN(b)}</div></div></div>
+  $('usebody').innerHTML = (useErr ? `<p class="hint bad" role="alert">The latest figures could not be saved to your notes database (${esc(useErr)}). They are counted here and will be saved when it can be reached.</p>` : '') + `<div class="ringbig">${ringSvg(t / b)}<div><div style="font-size:calc(26px + var(--fd));font-weight:600">≈ ${fmtN(t)}</div><div class="hint">estimated tokens in about the last 5 hours: ${Math.round(t / b * 100)}% of your budget of ${fmtN(b)}</div></div></div>
     <table class="stable"><thead><tr><td></td><th scope="col" class="n">Today</th><th scope="col" class="n">Last 7 days</th></tr></thead><tbody>${row('All features', d1.t, d7.t)}
     <tr><th colspan="3" scope="colgroup" class="hint">By feature</th></tr>${FEATS.map(([k, n]) => row(n, d1.tok[k] || 0, d7.tok[k] || 0)).join('')}
     <tr><th colspan="3" scope="colgroup" class="hint">By model asked for</th></tr>${Object.keys(d7.mod).sort().map(k => row(modelName(k), d1.mod[k] || 0, d7.mod[k] || 0)).join('') || '<tr><td colspan="3" class="hint">Nothing recorded yet.</td></tr>'}</tbody></table>`;
 }
-async function openUse() { $('useveil').hidden = false; $('budget').value = Number(settings.budget) || 100000; renderUse(); if (!db) return; await flushAct(); await loadAct(7); renderRing(); renderUse(); }
+async function openUse() { $('useveil').hidden = false; $('budget').value = Number(settings.budget) || 100000; renderUse(); if (!db) return; await flushUse(); renderRing(); renderUse(); }
 /* Folder colours: the validated eight-colour categorical palette (light and dark steps), assigned by folder size; further folders and Untagged are grey */
 const CAT = { light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'], dark: ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#0ca30c', '#9085e9', '#e66767'] };
 const GREY = '#8c8c8c';
@@ -2991,8 +3008,8 @@ document.addEventListener('keydown', e => {
   else if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); goHistory(e.key === 'ArrowLeft' ? -1 : 1); }
   else if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); if ($('shell').classList.contains('collapsed')) setCollapsed(false); setPane('tags'); $('q').focus(); }
 });
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { if (dirty) save(); flushAct(); } });
-window.addEventListener('pagehide', () => { if (dirty) save(); flushAct(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { if (dirty) save(); flushAct(); flushUse(); } });
+window.addEventListener('pagehide', () => { if (dirty) save(); flushAct(); flushUse(); });
 window.addEventListener('hashchange', () => { const m = location.hash.match(/^#n-([\w-]+)$/); if (m && (!current || current.id !== m[1]) && indexOf(m[1])) openNote(m[1]); });
 
 /* Start */
@@ -3045,6 +3062,7 @@ applySettings(); setCollapsed(store.get('collapsed', false) && !isMobile()); set
   db.doc('meta/ghapplied').onSnapshot(s => { ghApplied = s.exists ? (s.data() || {}).stamp || null : null; ghApply(); }, () => { ghApplied = null; });
   db.doc('meta/githubprefs').onSnapshot(s => { ghPrefs = s.exists ? s.data() || {} : {}; }, () => {});
   db.doc('meta/ideas').onSnapshot(s => { ideas = s.exists ? s.data() : null; renderIdeas(); }, () => {});
+  db.doc('meta/usage').onSnapshot(s => { usage = s.exists ? s.data() || {} : {}; if (usePending) addTo(usage, structuredClone(usePending)); renderRing(); if (!$('useveil').hidden) renderUse(); }, () => {});
   db.doc('meta/backup').onSnapshot(s => { backup = s.exists ? s.data() : null; renderFoot(); }, () => {});
   db.doc('meta/settings').onSnapshot(s => { if (s.exists) { const v = s.data(); settings = { ...settings, theme: v.theme || settings.theme, font: v.font || settings.font, day: v.day || v.palette || settings.day, night: v.night || v.palette || settings.night, size: v.size || settings.size, model: v.model || settings.model, factModel: v.factModel || settings.factModel, budget: v.budget || settings.budget }; store.set('settings', settings); applySettings(); } }, () => {});
 })();

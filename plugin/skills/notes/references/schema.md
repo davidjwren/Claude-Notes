@@ -63,7 +63,7 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 
 ## Activity (Statistics view)
 
-`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {<feature>: n}, hours: {<HH>: n}, models: {<model id>: n}, searches: [<term>], opened: {<noteId>: n}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record, add `edited.<id>`, and `set` it back with its version (or create it). Leave the rest alone: `tokens`, `hours` and `models` count the page's own Claude features (by feature, by local hour 00 to 23, and by the model asked for); `searches` holds the day's search terms on the page (lower case, 50 at most) and `opened` how often each note was opened, for the Ideas task to read.
+`activity/<YYYY-MM-DD>` (the user's local date): `{edited: {<noteId>: <top-level folder>}, tokens: {<feature>: n}, hours: {<HH>: n}, models: {<model id>: n}, searches: [<term>], opened: {<noteId>: n}}`. The top-level folder is the first segment of the note's first tag, or `Untagged`. After saving or editing a note, `get` the day's record and add `edited.<id>` with an `update` of that one field (`{"edited": {…the existing entries plus the new one…}}`) pinned to its version; `set` only to create a record that does not exist. Never `set` an existing day record: that erases the page's own fields. Leave the rest alone: `tokens`, `hours` and `models` count the page's own Claude features (by feature, by local hour 00 to 23, and by the model asked for); `searches` holds the day's search terms on the page (lower case, 50 at most) and `opened` how often each note was opened, for the Ideas task to read.
 
 ## Other records (read only for Claude unless a reference file says otherwise)
 
@@ -77,6 +77,7 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 | `meta/prefs` | Claude's preferences for this user, such as `workEmail` for handing tasks to a work inbox. Claude writes this one |
 | `meta/ideas` | `{generated, items: [{id, title, blurb, noteIds, noteId}], dismissed: [ids]}`: the ideas on the start page. The Ideas task writes `generated` and `items`; the page adds to `dismissed` |
 | `meta/websaves` | A request to tidy Web Saves overnight, written by the page: `{requested, actions, count}`; the task replaces it with `{lastRun, processed}` (web-saves.md) |
+| `meta/usage` | The usage ring's figures, written only by the page: `{<YYYY-MM-DD>: {tokens, hours, models}}` for the last 8 days. Never write it |
 | `meta/split` | A request to move a top-level folder to a second database (written by the page) |
 | `trash/<id>` | Recently deleted notes |
 

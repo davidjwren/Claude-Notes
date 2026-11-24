@@ -72,7 +72,7 @@ The user may type these with or without `/notes`, in any wording. Take the obvio
 3. **Body**: markdown, in the user's language and spelling; active voice, no emojis. `##` headings, lists, tables and code blocks all render. Link other notes with `[[Exact title]]` (also `[[Title|label]]`, `[[Title#heading]]`). Cite sources as markdown links. Never invent facts, sources or links; mark anything unchecked as such.
 4. **Never store** passwords, account or card numbers, government references, recovery phrases, or confidential client or employer information. Point to Apple Passwords instead with `[[passwords:Item name]]`. If the material contains such things, leave them out and say so.
 5. **Records**: build both with `scripts/notes_helper.py new` (or by hand from schema.md) and write them in one `batch`: `bodies/<id>` and `notes/<id>`, no `if_version` (new records). Keywords lower-case; `summary` two lines, written by you; `summarised` = now; `source` = `chat`, `research` or `code`.
-6. **Activity**: add the note to `activity/<local date>` (schema.md, Activity), so the page's Statistics count it.
+6. **Activity**: add the note to `activity/<local date>` (schema.md, Activity), so the page's Statistics count it. Add to the record; never replace it.
 7. **Report** in one line: title, folder, and the page link with `#n-<id>` added (the page's URL followed by `#n-<id>`).
 
 Editing and appending follow schema.md, Editing. Keep the rest of the body byte for byte. For repository notes (`gh-…`), change only the text under `## My notes`; the next sync rewrites everything above it.

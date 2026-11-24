@@ -1,5 +1,9 @@
 # Worklog
 
+## 2026-11-24 (usage ring fixed)
+
+Live page is version 81. The ring read zero because its figures lived in the day's activity record, which Claude's skill also writes; on 24 Nov that record had been replaced (58 versions, two `edited` entries, no tokens). The ring now has its own record, `meta/usage` (8 days, page only), shows a call at once, and reports a failed save in the usage box. schema.md and SKILL.md now say to add to a day record with `update`, never `set` over it. Test: `pu.js`.
+
 ## 2026-11-24 (sidebar hover)
 
 Live page is version 80. Sidebar rows (folders, Most recent, Help, GitHub) show the note list's hover: the tint plus a slim accent bar on the left; the open folder keeps a solid bar. One CSS rule on `.frow`, asked for in a comment.
