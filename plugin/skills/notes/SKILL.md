@@ -58,6 +58,15 @@ The user may type these with or without `/notes`, in any wording. Take the obvio
 | change the notes page | Read `references/editing-the-page.md` |
 | set up Claude Notes | Use the `notes-setup` skill |
 
+## Encrypted notes
+
+A note whose index record has `enc: true` is encrypted on the page: its body is a blob starting `enc:v1:` and its title reads "Locked note". You cannot read it and must not change it.
+
+- Never write to its `bodies/<id>` or `notes/<id>` record, never summarise it, and leave it out of searches, counts of matches and anything you send elsewhere. Say "N encrypted notes were skipped" when that affects the answer.
+- Deleting one is allowed on request: move both records to `trash/<id>` exactly as they are.
+- Never create or move a plain-text note into an encrypted folder (a folder key listed in `meta/folders.encrypted`, or any sub-folder of one). Ask the user to create it on the page instead, or to name another folder.
+- Never read or write `meta/vault`.
+
 ## Finding notes
 
 1. Read the index, not the bodies: `list` the `notes` collection with `limit: 1000` and `out_dir`, then search the saved files with `scripts/notes_helper.py find <dir> <words>` (title, tags, keywords and summary, all words must match, case-insensitive). Without code execution, use `query` with `where` clauses: exact `title`, or `tags` `array-contains` a folder path.

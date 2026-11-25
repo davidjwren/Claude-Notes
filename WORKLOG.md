@@ -1,5 +1,16 @@
 # Worklog
 
+## 2026-11-25: Phase 5, encrypted notes and file links
+
+- Live page is version 83. Encryption (`ENC` block in the page): one random AES-GCM 256 data key, wrapped in `meta/vault` under PBKDF2-SHA256 (600,000 rounds) keys from the password and from a recovery key. An encrypted note is one blob in `bodies/<id>` (`enc:v1:` + base64 of IV and ciphertext of `{title, tags, keywords, links, text}`); its index record keeps `enc: true`, dates, the encrypted folder tag and the title "Locked note".
+- In memory the page overlays decrypted fields on the note list (`encView`), so lists, search, links and the graph work while unlocked; `idxOf` gives the stored record for anything written back (Recently deleted, Download all).
+- Folders: `meta/folders.encrypted`; `encFolder` toggles and offers to convert the notes inside. Notes: the note bar padlock (`encNote`). Moves go through `setEnc`, which writes and reads back the body before changing the index record.
+- Claude gate: every `sample` call is wrapped in `aiAvailable`; an open encrypted note asks "This sends the note text to Claude in plain text. Continue?" (once per chat). Calls that do not carry the open note pass `other: true`. Exports use the same gate. `meta/settings.confirmEnc` turns the question into a one-off notice. Encrypted notes are left out of every cross-note prompt.
+- Link a file (`fileLink`, `insertFile`): a share link becomes a link card naming Google Drive, OneDrive, SharePoint, Dropbox or iCloud; https only.
+- Fixed on the way: a save that failed before its first await left `saving` set for ever, so nothing saved again until a reload.
+- Not built from the brief: passkeys, "remember on this device" and a lock timeout (none could be tested in Claude's frame; the password is asked once per page load); inline pictures from Drive; "Decrypt and export" of everything; offering to move a note to an encrypted folder when encrypting it; the frame tests in item 16 were not run.
+- Tests: `pv.js`, 21 checks, including that no title, text, tag or keyword of an encrypted note is left anywhere in the database, wrong password, recovery key, changed blob, locked save, moves in and out, Recently deleted and Download all.
+
 ## 2026-11-24 (export replaces Share; usage ring removed)
 
 - Live page is version 82. Share is gone from the Actions menu. In its place: Export as Markdown (`exportMd`) and Export as PDF (`exportPdf`), both saved through the downloads capability. The PDF is laid out by pdfmake 0.2.10 (jsdelivr, loaded on first use) from the reader's HTML, with colours read in light mode and the day scheme (`inDay`); mermaid diagrams and mind maps go in as pictures (`svgBlock`). Known limits: one font (Roboto), so no monospace and no characters outside Latin, Greek and Cyrillic; mind map icons are left out of the picture.

@@ -19,6 +19,7 @@ The page keeps the newest 1,000 notes (ordered by `updated`) live and reads olde
 | `summarised` | ISO date-time or null | When `summary` and `keywords` were last written by Claude |
 | `words` | number | Whitespace-separated words in the body |
 | `pinned` | boolean | Pinned notes show on the start page |
+| `enc` | `true`, or absent | The note is encrypted by the page. Its `title` is "Locked note", `tags` holds only the encrypted folder it is in, `keywords` and `links` are empty, `words` is 0, and `bodies/<id>.text` is `enc:v1:` followed by base64 (a 12-byte IV, then AES-GCM ciphertext of a JSON object `{title, tags, keywords, links, text}`). Read-only for Claude (SKILL.md, Encrypted notes) |
 
 
 Repository notes (`gh-<repo>`, source `github`) also carry `overview`, `pushed`, `url`, `repo`, `private` and `synced`. They are written by the GitHub sync; do not edit their index records.
@@ -69,8 +70,9 @@ Mirror the page: `set` `trash/<id>` `{index: <the index record without id>, body
 
 | Record | Holds |
 |---|---|
-| `meta/settings` | Theme, day and night colour schemes, font, text size, plus `model` and `factModel` (`haiku`, `sonnet`, `opus` or `fable`) |
-| `meta/folders` | `{pinned: [folder keys]}`, pinned folders, lower case |
+| `meta/settings` | Theme, day and night colour schemes, font, text size, plus `model` and `factModel` (`haiku`, `sonnet`, `opus` or `fable`) and `confirmEnc` (ask before an encrypted note is sent to Claude) |
+| `meta/folders` | `{pinned: [folder keys], encrypted: [folder keys]}`, lower case. Notes in an `encrypted` folder or its sub-folders are encrypted by the page; write this record only by adding to it, never dropping a field |
+| `meta/vault` | The encryption key wrapped under the user's password and recovery key: `{v, salt, iter, wrapPass, wrapRecovery, passkeys, check}`. Never read into a reply, never write |
 | `meta/backup` | Last nightly backup, if a backup task is set up: time, file id, note count |
 | `meta/github`, `meta/githubprefs`, `meta/ghapplied` | GitHub sync (see github-sync.md); `meta/githubprefs` holds `owner` and `exclude` |
 | `meta/capture` | Capture setting: `{research, code, chats, updated}`, each `off`, `offer` or `auto`. Claude writes this one |

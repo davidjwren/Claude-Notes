@@ -50,6 +50,8 @@ Claude Notes addresses two problems:
 - **Paragraph tools**: rewrite, shorten, expand or fact-check one paragraph, or draw it (or the text you selected) as a process diagram. Fact-check gives a verdict per claim from Claude's knowledge and your other notes (no live web).
 - **Actions menu** on the note bar: Auto-improve, **Write with Claude**, **Summarise** (this note, or a document: text, markdown, HTML, CSV, Word or PDF), **Mind map this note**, **Mind map the links**, **Format code** (JSON, YAML, XML and Python blocks, reviewed before and after), **Export as Markdown** and **Export as PDF** (in the day colours of your scheme).
 - **Mind maps across notes**: of a note's links (drawn without Claude), or of a whole folder or search, grouped by Claude from titles, tags, keywords and summaries only, and saved as a note whose names open the notes.
+- **Encrypted notes and folders**: the title, text, tags and links of a note are stored encrypted (AES-GCM, with a password and a recovery key), so the stored copy cannot be read or searched, by Claude's skill and tasks either. Every Claude feature asks before sending an encrypted note.
+- **Links to files** on Google Drive, OneDrive, SharePoint, Dropbox or iCloud, as cards; nothing is uploaded.
 - **Web Saves**: give Claude a link or pasted text and say "save to Web Saves"; four buttons in the folder combine sources, add them to existing notes or make new notes, each reviewed before it is applied.
 - **Ideas** on the start page, written by an optional nightly task from your recent notes, searches and opened notes.
 - **Mermaid diagrams**: a code block marked `mermaid` shows as a diagram in the reader. Other code blocks that name their language are syntax-coloured in your colour scheme.
@@ -192,6 +194,7 @@ The skill's [`editing-the-page.md`](plugin/skills/notes/references/editing-the-p
 
 - **Notes are shared with Anthropic.** They live in an Anthropic-hosted artifact database and are sent to Claude when you use Claude features or the skill. Your Claude plan's terms and data settings apply.
 - **Private by default.** The page is a private artifact; only you can open it unless you share it. The database rules let only the owner write.
+- **Encryption is partial protection.** An encrypted note is unreadable where it is stored, but not while it is open, and its text is sent to Claude in plain text if you use a Claude feature on it (the page asks first). Lose the password and the recovery key and it is gone.
 - **No secrets.** Don't store passwords, account or card numbers, government identifiers, recovery phrases, or confidential client or employer information. A note can point to an item in a password manager instead, with `[[passwords:Item name]]`.
 - **Prompt safety.** Claude treats note text as data, never as instructions.
 

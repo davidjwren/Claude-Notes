@@ -57,11 +57,25 @@ Everything you can do on the notes page, in one place. For how the page looks on
 - **Fact-check**: lists the checkable claims in one paragraph with a verdict each (supported, doubtful, incorrect, can't verify), a reason and what to check. Claude has no live web access on this page: it checks against its own knowledge and your other notes, so verify anything important at source. Nothing changes in the note unless you choose Insert, which adds the result as a quote under the paragraph (Undo reverses it).
 - **Model choice**: Settings has "Claude model for notes tasks" (Sonnet unless you change it) and a separate "Fact-check model" (Opus unless you change it). Haiku uses least of your plan; Opus and Fable use more of your plan's limits. If the chosen model can't answer, Claude's nearest model does and the result says so.
 
+## Encrypted notes
+Encryption makes the stored copy of a note unreadable and unsearchable to anyone with access to the notes database, including Claude's `/notes` skill and the scheduled tasks. It is meant to keep private notes out of reach, not to be unbreakable.
+
+- **Set up**: Settings, Security, **Set up encryption** (or the first time you encrypt something). Choose a password of at least 12 characters. You are then shown a **recovery key** once: copy or download it and keep it somewhere that is not this page.
+- **Encrypt a folder**: in the folder's menu, **Encrypt folder…**. Notes saved in it and its sub-folders from then on are encrypted, and it offers to encrypt the notes already there. The folder shows a padlock; its name stays readable.
+- **Encrypt one note**: the padlock button in the note bar says **Not encrypted** or **Encrypted**. Its menu encrypts or decrypts the note, or locks everything.
+- **What is hidden**: the title, text, tags, keywords and links. In the database the note is listed only as "Locked note", with its dates and the encrypted folder it is in.
+- **Unlocking**: the password is asked once each time the page is opened, when you open an encrypted note or press the padlock at the foot of the sidebar. Until then encrypted notes show as "Locked note" and search does not find them. **Lock now** hides them again.
+- **Moving**: moving a note into an encrypted folder encrypts it, after asking. Moving one out asks whether to decrypt it or keep it encrypted. Typing an encrypted folder's name into a note's tags encrypts it at the next save.
+- **Claude**: an unlocked encrypted note can still use the Claude features and the exports, but each one first asks "This sends the note text to Claude in plain text. Continue?". Settings, Security can turn the question off. Encrypted notes are left out of everything Claude does across notes: Auto-improve's list of other notes, mind maps of folders, fact-check look-ups and Web Saves.
+- **Forgotten password**: on the unlock box choose **Use the recovery key**, then set a new password. Changing the password never rewrites your notes.
+- **Limits**: it does not protect text you send to Claude, or a note while it is open on screen. If the password and the recovery key are both lost, nobody can recover the notes. Recently deleted and Download all keep encrypted notes encrypted. Claude's skill cannot read, summarise or edit an encrypted note, and there are no passkeys.
+
 ## Other features
 - **Diagrams**: a code block marked `mermaid` shows as a diagram in the reader. See [[Markdown cheatsheet]].
 - **Statistics**: a 12-month activity heatmap, notes this day, week and month, and an estimate of Claude use on the page.
-- **Settings**: four tabs. Appearance (Light, Dark or System; day and night colour schemes; font; text size), Model Selection, Security (for encrypted folders, not built yet) and Import/Export. Settings apply on every device.
+- **Settings**: four tabs. Appearance (Light, Dark or System; day and night colour schemes; font; text size), Model Selection, Security (encryption, below) and Import/Export. Settings apply on every device.
 - **Passwords links**: `[[passwords:Item name]]` shows a key chip that copies the item name to search in Apple Passwords. No secret is stored.
+- **Link a file**: **Link a file** in the Actions menu (or the editor's Tools menu) takes a share link from Google Drive, OneDrive, SharePoint, Dropbox or iCloud and adds a card with a label you choose. Nothing is uploaded or stored in Notes, and only `https` links are accepted. Pictures are not shown inline.
 - **Link cards**: a link on a line of its own (a web address, or `[text](address)`) shows as a card with the site's icon, a title and the site name, automatically. A link inside a sentence stays an ordinary link. The page can't read other websites, so the title comes from the link text or the address; ask Claude (`/notes cards <note>`) for real titles and descriptions.
 - **Web Saves**: pages you capture from the web land in the `Web Saves` folder, where four buttons tidy them into proper notes with Claude. See [[Web Saves in Claude Notes]].
 - **Backups**: the sidebar footer shows the last nightly backup (if you set up the optional backup task); Settings → Download all (JSON) saves a copy now.
