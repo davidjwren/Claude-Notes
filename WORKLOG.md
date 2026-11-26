@@ -1,5 +1,11 @@
 # Worklog
 
+## 2026-11-26: Owner's plugin reinstalled, three scheduled tasks
+
+- `personal/` (ignored by git) holds `build.py`, which builds `personal/notes.plugin`: the repo's `notes` skill with the owner's page link fixed in, plus the Vault import files taken from the previously installed copy. Uploaded on claude.ai → Plugins as "Notes" v0.2.0, replacing the 22 November upload. Rebuild and upload it again after any change to `plugin/skills/notes`.
+- The skill is now the generic one, so `meta/prefs.workEmail` and `meta/githubprefs.owner` were set in the live database.
+- Scheduled tasks created in the desktop app on DJWPC (local, not cloud): `notes-ideas` (Sundays 19:45), `notes-research-queue` (02:32 nightly), `notes-web-saves` (03:42 nightly). Prompts are those in `docs/scheduled-tasks.md`.
+
 ## 2026-11-25: Phase 5, encrypted notes and file links
 
 - Live page is version 83. Encryption (`ENC` block in the page): one random AES-GCM 256 data key, wrapped in `meta/vault` under PBKDF2-SHA256 (600,000 rounds) keys from the password and from a recovery key. An encrypted note is one blob in `bodies/<id>` (`enc:v1:` + base64 of IV and ciphertext of `{title, tags, keywords, links, text}`); its index record keeps `enc: true`, dates, the encrypted folder tag and the title "Locked note".
